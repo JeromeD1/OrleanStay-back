@@ -1,0 +1,24 @@
+meta {
+  name: Update photo by id
+  type: http
+  seq: 4
+}
+
+put {
+  url: http://localhost:8080/photo/1
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtb2k0QGVtYWlsLmNvbSIsImlhdCI6MTcxOTU4MjYzMiwiZXhwIjoxNzE5NTg0NDMyfQ.MR2R0MqYOhgRdBFl05jBWjyHvrCDCysswPjQZVSBguA
+}
+
+body:json {
+  {
+    "id": 1,
+    "positionOrder": 2,
+    "appartmentId": 1,
+    "imgUrl": "monImageUrl1bis"
+  }
+}

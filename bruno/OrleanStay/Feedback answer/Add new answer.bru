@@ -1,0 +1,19 @@
+meta {
+  name: Add new answer
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:8080/feedbackAnswer
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "commentId": 2,
+      "utilisateurId": 1,
+      "commentAnswer": "Reponse au comment 3"
+    }
+}

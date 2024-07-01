@@ -1,0 +1,23 @@
+meta {
+  name: Update by id
+  type: http
+  seq: 4
+}
+
+put {
+  url: http://localhost:8080/personalInformation/7
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "firstname": "Roger1",
+    "lastname": "Rabitt1",
+    "email": "rogerRabitt1@gmail.com",
+    "phone": "07 50 24 78 33",
+    "address": "26 rue des Schmits",
+    "city": "Paris1",
+    "country": "France1"
+  }
+}

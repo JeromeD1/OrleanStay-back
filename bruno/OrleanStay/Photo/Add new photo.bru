@@ -1,0 +1,23 @@
+meta {
+  name: Add new photo
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:8080/photo
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtb2k0QGVtYWlsLmNvbSIsImlhdCI6MTcxOTU4MjYzMiwiZXhwIjoxNzE5NTg0NDMyfQ.MR2R0MqYOhgRdBFl05jBWjyHvrCDCysswPjQZVSBguA
+}
+
+body:json {
+  {
+      "positionOrder": 1,
+      "appartmentId": 1,
+      "imgUrl": "monImageUrl test 5.3"
+    }
+}

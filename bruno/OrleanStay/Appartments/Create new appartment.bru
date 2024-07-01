@@ -1,0 +1,33 @@
+meta {
+  name: Create new appartment
+  type: http
+  seq: 5
+}
+
+post {
+  url: http://localhost:8080/appartment
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "ownerId": 1,
+    "name": "Charmant studio au cœur de la ville",
+    "description": "Studio moderne et confortable avec toutes les commodités nécessaires pour un séjour agréable.",
+    "address": "123 Rue de la République",
+    "zipcode": "75001",
+    "city": "Paris",
+    "googleMapUrl": "https://maps.google.com/?q=123+Rue+de+la+République+Paris",
+    "distanceCityCenter": "0.5 km",
+    "distanceTrain": "1 km",
+    "distanceTram": "0.3 km",
+    "nightPrice": 85,
+    "caution": 150,
+    "menageCourtSejour": 30,
+    "menageLongSejour": 50,
+    "menageLongueDuree": 70,
+    "type": "LONGUE_DUREE",
+    "discountId": 2
+  }
+}

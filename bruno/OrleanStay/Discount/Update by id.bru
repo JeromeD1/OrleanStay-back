@@ -1,0 +1,25 @@
+meta {
+  name: Update by id
+  type: http
+  seq: 4
+}
+
+put {
+  url: http://localhost:8080/discount/3
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtb2k0QGVtYWlsLmNvbSIsImlhdCI6MTcxOTU4MzYxNywiZXhwIjoxNzE5NTg1NDE3fQ.Z1RRCYRJRoO5_-SQfAS35uaWdP4dynVa0svZIl0Tt9w
+}
+
+body:json {
+  {
+    "id":3,
+    "week": 0.55,
+    "month": 0.75,
+    "weekActivated": false,
+    "monthActivated": true
+  }
+}

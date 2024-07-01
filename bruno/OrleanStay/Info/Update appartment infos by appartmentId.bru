@@ -1,0 +1,45 @@
+meta {
+  name: Update appartment infos by appartmentId
+  type: http
+  seq: 6
+}
+
+put {
+  url: http://localhost:8080/info/1
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtb2k0QGVtYWlsLmNvbSIsImlhdCI6MTcxOTU4NDEyMCwiZXhwIjoxNzE5NTg1OTIwfQ.J2n1QPGO_umuHSPYMs-QOUNLzNwY5-bymcOrBPI9iw8
+}
+
+body:json {
+  {
+    "infos":[
+    {
+      "positionOrder": 2,
+      "appartmentId": 1,
+      "info": "Vue sur la mer"
+    },
+    {
+      "id": 2,
+      "positionOrder": 3,
+      "appartmentId": 1,
+      "info": "Wi-Fi gratuit"
+    },
+    {
+      "id": 3,
+      "positionOrder": 1,
+      "appartmentId": 1,
+      "info": "Parking inclus"
+    },
+    {
+      "id": 18,
+      "positionOrder": 4,
+      "appartmentId": 1,
+      "info": "Animaux acceptés"
+    }
+  ]
+  }
+}

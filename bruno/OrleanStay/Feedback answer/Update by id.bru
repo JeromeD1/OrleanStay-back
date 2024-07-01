@@ -1,0 +1,20 @@
+meta {
+  name: Update by id
+  type: http
+  seq: 2
+}
+
+put {
+  url: http://localhost:8080/feedbackAnswer/2
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "id": 2,
+      "commentId": 2,
+      "utilisateurId": 1,
+      "commentAnswer": "Reponse 3 ter"
+    }
+}

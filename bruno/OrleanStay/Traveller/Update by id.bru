@@ -1,0 +1,28 @@
+meta {
+  name: Update by id
+  type: http
+  seq: 5
+}
+
+put {
+  url: http://localhost:8080/traveller/1
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "id": 1,
+    "utilisateurId": 1,
+    "personalInformations": {
+      "id": 1,
+      "firstname": "John 2",
+      "lastname": "Doe",
+      "email": "john.doe@example.com",
+      "phone": "1234567890",
+      "address": "123 Main St",
+      "city": "Vancouver",
+      "country": "Canada"
+    }
+  }
+}

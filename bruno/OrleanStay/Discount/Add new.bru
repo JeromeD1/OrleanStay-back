@@ -1,0 +1,24 @@
+meta {
+  name: Add new
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:8080/discount
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtb2k0QGVtYWlsLmNvbSIsImlhdCI6MTcxOTU4MzYxNywiZXhwIjoxNzE5NTg1NDE3fQ.Z1RRCYRJRoO5_-SQfAS35uaWdP4dynVa0svZIl0Tt9w
+}
+
+body:json {
+  {
+    "week": 0.65,
+    "month": 0.8,
+    "weekActivated": true,
+    "monthActivated": true
+  }
+}

@@ -1,0 +1,55 @@
+meta {
+  name: Update order by appartment id
+  type: http
+  seq: 6
+}
+
+put {
+  url: http://localhost:8080/photo/updateOrder/1
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "photos": [
+    {
+      "id": 1,
+      "positionOrder": 1,
+      "appartmentId": 1,
+      "imgUrl": "monImageUrl1"
+    },
+    {
+      "id": 2,
+      "positionOrder": 2,
+      "appartmentId": 1,
+      "imgUrl": "monImageUrl2"
+    },
+    {
+      "id": 8,
+      "positionOrder": 3,
+      "appartmentId": 1,
+      "imgUrl": "monImageUrl test"
+    },
+    {
+      "id": 9,
+      "positionOrder": 4,
+      "appartmentId": 1,
+      "imgUrl": "monImageUrl test 2"
+    },
+    {
+      "id": 10,
+      "positionOrder": 5,
+      "appartmentId": 1,
+      "imgUrl": "monImageUrl test 3"
+    },
+    {
+      "id": 11,
+      "positionOrder": 6,
+      "appartmentId": 1,
+      "imgUrl": "monImageUrl test 4"
+    }
+  ]
+    
+  }
+}

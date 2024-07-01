@@ -1,0 +1,36 @@
+meta {
+  name: Add new reservation
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:8080/reservation
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "appartmentId": 1,
+    "checkinDate": "2025-07-01T14:00:00",
+    "checkoutDate": "2025-07-10T10:00:00",
+    "nbAdult": 3,
+    "nbChild": 2,
+    "nbBaby": 1,
+    "reservationPrice": 1280,
+    "traveller": {
+      "personalInformations": {
+        "firstname": "John",
+        "lastname": "Doe",
+        "email": "john.doe@example.com",
+        "phone": "1234567890",
+        "address": "123 Main St",
+        "city": "Vancouver",
+        "country": "Canada"
+      },
+      "utilisateurId": 1
+    },
+    "travellerMessage": "Message pour le voyageur 1"
+  }
+}

@@ -1,0 +1,23 @@
+meta {
+  name: Add new feedback
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:8080/feedback
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtb2k0QGVtYWlsLmNvbSIsImlhdCI6MTcxOTU3NTc5NSwiZXhwIjoxNzE5NTc1ODg1fQ.Zpw1F90nSL9oeaEqdAx0BwPRljxcqJ3m8E3oBOoSTuo
+}
+
+body:json {
+  {
+    "appartmentId": 1,
+    "utilisateurId": 1,
+    "comment": "4eme commentaire pour appartement 1"
+  }
+}

@@ -1,0 +1,26 @@
+meta {
+  name: Add new traveller
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:8080/traveller
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "utilisateurId": null,
+      "personalInformations": {
+        "firstname": "Alicia",
+        "lastname": "Kill",
+        "email": "alicia.kill@example.com",
+        "phone": "1122334455",
+        "address": "789 Oak St",
+        "city": "Montreal",
+        "country": "Canada"
+      }
+  }
+}
