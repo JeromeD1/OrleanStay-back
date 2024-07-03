@@ -18,6 +18,8 @@ public class PersonalInformationDTO {
 
     private String address;
 
+    private String zipcode;
+
     private String city;
 
     private String country;

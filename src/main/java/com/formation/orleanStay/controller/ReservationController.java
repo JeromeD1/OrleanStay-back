@@ -46,6 +46,7 @@ public class ReservationController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ReservationDTO create(@RequestBody ReservationSaveRequest reservationSaveRequest) {
+        System.out.println("demande de reservation " + reservationSaveRequest);
         log.debug("Add new reservation with value : {}", reservationSaveRequest);
             return reservationService.create(reservationSaveRequest);
     }

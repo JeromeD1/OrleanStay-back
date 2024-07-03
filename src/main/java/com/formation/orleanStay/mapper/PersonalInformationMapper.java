@@ -59,6 +59,7 @@ public interface PersonalInformationMapper {
     @Mapping(source = "saveRequest.email", target = "email")
     @Mapping(source = "saveRequest.phone", target = "phone")
     @Mapping(source = "saveRequest.address", target = "address")
+    @Mapping(source = "saveRequest.zipcode", target = "zipcode")
     @Mapping(source = "saveRequest.city", target = "city")
     @Mapping(source = "saveRequest.country", target = "country")
     void overrideFromPersonalInformationSaveRequest(PersonalInformationSaveRequest saveRequest, @MappingTarget PersonalInformation personalInformation);

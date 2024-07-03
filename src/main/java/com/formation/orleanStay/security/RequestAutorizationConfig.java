@@ -2,6 +2,7 @@ package com.formation.orleanStay.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
@@ -36,7 +37,9 @@ public class RequestAutorizationConfig {
      */
     @Bean
     public Customizer<AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry> authorizeHttpRequestsCustomizer() {
-        return authorize -> authorize.requestMatchers("/api/auth/**").permitAll()
+        return authorize -> authorize
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .requestMatchers("/api/auth/**").permitAll()
 
                 .requestMatchers("/error").permitAll()
                 .requestMatchers(POST, "/signup").permitAll()
@@ -104,6 +107,7 @@ public class RequestAutorizationConfig {
                 .requestMatchers(POST, UTILISATEUR_ENDPOINT).hasAnyRole(ADMIN)
                 .requestMatchers(PUT, UTILISATEUR_ENDPOINT).hasAnyRole(ADMIN)
                 .requestMatchers(DELETE, UTILISATEUR_ENDPOINT).hasAnyRole(ADMIN)
+
 
 
                 .anyRequest().denyAll();

@@ -32,6 +32,9 @@ public class PersonalInformation {
     @Column(nullable = false, length = 150)
     private String address;
 
+    @Column(nullable = false, length = 10)
+    private String zipcode;
+
     @Column(nullable = false, length = 50)
     private String city;
 

@@ -18,7 +18,14 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.Arrays;
+import java.util.List;
 
 
 @Configuration
@@ -29,6 +36,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SpringSecurityConfig {
 
     private CustomUserDetailsService customUserDetailsService;
+    private CorsProperties corsProperties;
 
 
     /**
@@ -45,14 +53,19 @@ public class SpringSecurityConfig {
     ) throws Exception{
 
         httpSecurity
+//                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+//                .cors(cors -> cors.disable())
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorizeHttpRequestsCustomizer);
+//                .headers(headers -> headers.referrerPolicy(ReferrerPolicyHeaderWriter.ReferrerPolicy.ORIGIN));
+
 
         httpSecurity.addFilterBefore(authenticationJwtTokenFilter(jwtUtils), UsernamePasswordAuthenticationFilter.class);
 
         return httpSecurity.build();
     }
+
 
     //Gestion de l'encription du mot de passe
     @Bean
@@ -87,5 +100,32 @@ public class SpringSecurityConfig {
     public AuthTokenFilter authenticationJwtTokenFilter(JwtUtils jwtUtils) {
         return new AuthTokenFilter(jwtUtils, customUserDetailsService);
     }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList(corsProperties.getAllowedOrigins().split(",")));
+//        configuration.addAllowedOrigin("*");
+        configuration.setAllowedMethods(Arrays.asList(corsProperties.getAllowedMethods().split(",")));
+
+//        configuration.addAllowedHeader("*");
+//        configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE","OPTIONS"));
+//        configuration.addAllowedMethod("*");
+        configuration.setAllowCredentials(corsProperties.getAllowCredentials());
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
+//        configuration.setAllowedHeaders(List.of(CorsConfiguration.ALL));
+
+
+//        System.out.println("CORS Configuration:");
+//        System.out.println("Allowed Origins: " + configuration.getAllowedOrigins());
+//        System.out.println("Allowed Methods: " + configuration.getAllowedMethods());
+//        System.out.println("Allow Credentials: " + configuration.getAllowCredentials());
+
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+
 
 }

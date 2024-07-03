@@ -32,6 +32,9 @@ public class PersonalInformationSaveRequest {
     private String address;
 
     @NotBlank
+    private String zipcode;
+
+    @NotBlank
     private String city;
 
     @NotBlank
