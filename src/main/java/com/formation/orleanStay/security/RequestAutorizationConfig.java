@@ -44,6 +44,7 @@ public class RequestAutorizationConfig {
                 .requestMatchers("/error").permitAll()
                 .requestMatchers(POST, "/signup").permitAll()
                 .requestMatchers(POST, "/login").permitAll()
+                .requestMatchers(POST, "/logMeOut").permitAll()
 
                 .requestMatchers(GET, "/appartment/active").permitAll()
                 .requestMatchers(GET, "/appartment/all").hasRole(ADMIN)

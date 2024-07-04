@@ -3,6 +3,7 @@ package com.formation.orleanStay.security;
 import com.formation.orleanStay.utils.JwtUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
@@ -62,7 +63,12 @@ protected void doFilterInternal(HttpServletRequest request, HttpServletResponse 
 
     try {
         String accessJWT = parseJwt(request);
-        if (accessJWT != null && jwtUtils.validateJwtToken(accessJWT)) {
+
+
+
+
+        if (accessJWT != null && jwtUtils.validateJwtToken(accessJWT) && compareCookieWithAccessJwt(request, accessJWT)) {
+
             String login = jwtUtils.getLoginFromJwtToken(accessJWT);
 
             UserDetails userDetails = customUserDetailsService.loadUserByUsername(login);
@@ -97,5 +103,22 @@ protected void doFilterInternal(HttpServletRequest request, HttpServletResponse 
         }
 
         return null;
+    }
+
+    private boolean compareCookieWithAccessJwt(HttpServletRequest request, String accessJWT) {
+        System.out.println("accessJWT: " + accessJWT);
+        //comparaison de accessJWT avec le cookie pour double vérification
+        Cookie[] cookies = request.getCookies();
+        System.out.println("cookies: " + cookies);
+        for(Cookie cookie : cookies) {
+            if("refreshToken".equals(cookie.getName())) {
+                String cookieToken = cookie.getValue();
+                if(cookieToken.equals(accessJWT)) {
+                    System.out.println("cookieToken: " + cookieToken);
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

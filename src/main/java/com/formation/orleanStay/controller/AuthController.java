@@ -8,12 +8,15 @@ import com.formation.orleanStay.utils.JwtUtils;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @Slf4j
@@ -38,5 +41,25 @@ public class AuthController {
         final ResponseCookie cookie = jwtUtils.setRefreshTokenCookie(loginRequest.getLogin());
         response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
         return authService.login(loginRequest);
+    }
+
+    @PostMapping("/logMeOut")
+//    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Map<String, String>> logout(HttpServletResponse response) {
+
+        try {
+            log.debug("Logout de l'utilisateur");
+            authService.logout();
+            final ResponseCookie cookie = authService.deleteCookie(response);
+            response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+            Map<String, String> responseBody = new HashMap<>();
+            responseBody.put("message", "Logout successful");
+            return ResponseEntity.ok().body(responseBody);
+        } catch (Exception e) {
+            log.error("Error during logout", e);
+            Map<String, String> responseBody = new HashMap<>();
+            responseBody.put("message", "Logout failed");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseBody);
+        }
     }
 }

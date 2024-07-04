@@ -2,6 +2,7 @@ package com.formation.orleanStay.security;
 
 import com.formation.orleanStay.utils.JwtProperties;
 import com.formation.orleanStay.utils.JwtUtils;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -58,8 +59,14 @@ public class SpringSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorizeHttpRequestsCustomizer);
-//                .headers(headers -> headers.referrerPolicy(ReferrerPolicyHeaderWriter.ReferrerPolicy.ORIGIN));
-
+//                .logout(logout -> logout.logoutUrl("/logMeOut"));
+//                .logout(logout -> logout
+//                        .logoutUrl("/logout")
+//                        .logoutSuccessHandler((request, response, authentication) -> {
+//                            response.setStatus(HttpServletResponse.SC_OK);
+//                        })
+//                        .permitAll()
+//                );
 
         httpSecurity.addFilterBefore(authenticationJwtTokenFilter(jwtUtils), UsernamePasswordAuthenticationFilter.class);
 

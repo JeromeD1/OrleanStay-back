@@ -13,7 +13,11 @@ import com.formation.orleanStay.repository.UtilisateurRepository;
 import com.formation.orleanStay.service.AuthService;
 import com.formation.orleanStay.utils.Findbyid;
 import com.formation.orleanStay.utils.JwtUtils;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseCookie;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -72,8 +76,31 @@ public class AuthServiceImpl implements AuthService {
 
     }
 
+    @Override
+    public void logout(){
+        //suppression de l'utilisateur dans le serveur
+        SecurityContextHolder.clearContext();
+
+    }
+
     private boolean verifyPassword(String requestPassword, String hashedBddPassword) {
         return passwordEncoder.matches(requestPassword, hashedBddPassword);
+    }
+
+    public ResponseCookie deleteCookie(HttpServletResponse response){
+        //suppression du cookie
+//        Cookie cookieToRemove = new Cookie("refreshToken", "null");
+//        cookieToRemove.setMaxAge(0);
+//        cookieToRemove.setPath("/");
+//        cookieToRemove.setHttpOnly(true);
+//        cookieToRemove.setSecure(true);
+//        response.addCookie(cookieToRemove);
+        return ResponseCookie.from("refreshToken","null")
+                .httpOnly(true)
+                .secure(true)
+                .path("/")
+                .maxAge(0)
+                .build();
     }
 
 }
