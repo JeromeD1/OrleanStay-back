@@ -1,6 +1,7 @@
 package com.formation.orleanStay.service;
 
 import com.formation.orleanStay.models.DTO.ReservationDTO;
+import com.formation.orleanStay.models.entity.Reservation;
 import com.formation.orleanStay.models.request.ReservationSaveRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -15,6 +16,12 @@ public interface ReservationService {
 
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     ReservationDTO findDTOById(Long id);
+
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    List<ReservationDTO> findAllReservationRequests();
+
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    List<ReservationDTO> findReservationRequestsByOwnerId(Long ownerId);
 
     @Transactional(propagation = Propagation.REQUIRED)
     ReservationDTO create(ReservationSaveRequest reservationSaveRequest);

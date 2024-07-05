@@ -27,6 +27,9 @@ public class SignupSaveRequest {
     private String phone;
 
     @NotBlank
+    private String zipcode;
+
+    @NotBlank
     private String address;
 
     @NotBlank

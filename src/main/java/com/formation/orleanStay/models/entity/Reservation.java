@@ -84,6 +84,9 @@ public class Reservation {
     @JsonProperty("isDepositReceived")
     private Boolean depositReceived = false;
 
+    @Column
+    private Integer depositValue;
+
     @Column(columnDefinition = "text")
     private String travellerMessage;
 
@@ -101,6 +104,11 @@ public class Reservation {
         if (this.depositReceived == null) {
             this.depositReceived = false;
         }
+
+        if (this.depositValue == null) {
+            this.depositValue = (int) Math.floor( (0.3 * this.reservationPrice.intValue())) ;
+        }
     }
+
 
 }

@@ -18,3 +18,17 @@ body:json {
       "commentAnswer": "Reponse 3 ter"
     }
 }
+
+script:pre-request {
+  const cookie = bru.getVar("cookie");
+  
+  if(cookie) {
+    req.setHeader("Cookie", cookie)
+  }
+  
+  const token = bru.getVar("authorization");
+  
+  if(token) {
+    req.setHeader("authorization", token);
+  }
+}

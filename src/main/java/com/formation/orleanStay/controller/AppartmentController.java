@@ -1,6 +1,7 @@
 package com.formation.orleanStay.controller;
 
 import com.formation.orleanStay.models.DTO.AppartmentDTO;
+import com.formation.orleanStay.models.DTO.AppartmentNameAndOwnerDTO;
 import com.formation.orleanStay.models.request.AppartmentSaveRequest;
 import com.formation.orleanStay.service.AppartmentService;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +29,13 @@ public class AppartmentController {
     public List<AppartmentDTO> findAll() {
         log.debug("Fetching all appartments");
         return appartmentService.findAll();
+    }
+
+    @GetMapping("/names")
+    @ResponseStatus(HttpStatus.OK)
+    public List<AppartmentNameAndOwnerDTO> findAllNamesAndOwners() {
+        log.debug("Fetching all appartment names and owners");
+        return appartmentService.findAllNamesAndOwners();
     }
 
     @GetMapping("/active")

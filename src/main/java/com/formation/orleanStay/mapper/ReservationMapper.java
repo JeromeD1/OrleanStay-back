@@ -63,6 +63,7 @@ public interface ReservationMapper {
     @Mapping(source = "saveRequest.cancelled", target = "cancelled")
     @Mapping(source = "saveRequest.depositAsked", target = "depositAsked")
     @Mapping(source = "saveRequest.depositReceived", target = "depositReceived")
+    @Mapping(source = "saveRequest.depositValue", target = "depositValue")
     @Mapping(source = "saveRequest.travellerMessage", target = "travellerMessage")
     @Mapping(source = "saveRequest.traveller.personalInformations.id", target = "traveller.personalInformations.id")
     void overrideFromReservationSaveRequest(ReservationSaveRequest saveRequest, @MappingTarget Reservation reservation);

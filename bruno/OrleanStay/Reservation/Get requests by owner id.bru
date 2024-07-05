@@ -1,13 +1,17 @@
 meta {
-  name: Get by id
+  name: Get requests by owner id
   type: http
-  seq: 2
+  seq: 7
 }
 
 get {
-  url: http://localhost:8080/reservation/1
+  url: http://localhost:8080/reservation/requests/owner/1
   body: none
   auth: none
+}
+
+headers {
+  Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtb2lAZW1haWwuY29tIiwiaWF0IjoxNzIwMTAxOTUyLCJleHAiOjE3MjAxMDM3NTJ9.C27qGvDZbar7XLXRUk2fwUvpb8ImyCp5UCh9EJUWbCw
 }
 
 script:pre-request {

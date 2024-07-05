@@ -12,7 +12,21 @@ post {
 
 body:json {
   {
-    "login":"moi4@email.com",
+    "login":"moi@email.com",
     "password": "12345"
+  }
+}
+
+script:post-response {
+  const cookies = res.getHeader('set-cookie');
+  
+  if(cookies) {
+    bru.setVar("cookie", cookies.join('; '));
+  }
+  
+  const token = res.getBody().token;
+  
+  if(token) {
+    bru.setVar("authorization", "Bearer " + token);
   }
 }

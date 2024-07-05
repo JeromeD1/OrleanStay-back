@@ -49,6 +49,7 @@ public class RequestAutorizationConfig {
                 .requestMatchers(GET, "/appartment/active").permitAll()
                 .requestMatchers(GET, "/appartment/all").hasRole(ADMIN)
                 .requestMatchers(GET, "/appartment/owner/**").hasAnyRole(OWNER, ADMIN)
+                .requestMatchers(GET, "/appartment/names/**").hasAnyRole(OWNER, ADMIN)
                 .requestMatchers(GET, APPARTMENT_ENDPOINT).hasAnyRole(OWNER, ADMIN)
                 .requestMatchers(POST, APPARTMENT_ENDPOINT).hasAnyRole(OWNER, ADMIN)
                 .requestMatchers(PUT, APPARTMENT_ENDPOINT).hasAnyRole(OWNER, ADMIN)
@@ -89,6 +90,8 @@ public class RequestAutorizationConfig {
                 .requestMatchers(PUT, PHOTO_ENDPOINT).hasAnyRole(OWNER, ADMIN)
                 .requestMatchers(DELETE, PHOTO_ENDPOINT).hasAnyRole(OWNER, ADMIN)
 
+                .requestMatchers(GET, "/reservation/requests/all").hasAnyRole(ADMIN)
+                .requestMatchers(GET, "/reservation/requests/**").hasAnyRole(OWNER, ADMIN)
                 .requestMatchers(GET, RESERVATION_ENDPOINT).authenticated()
                 .requestMatchers(POST, RESERVATION_ENDPOINT).permitAll()
                 .requestMatchers(PUT, RESERVATION_ENDPOINT).authenticated()

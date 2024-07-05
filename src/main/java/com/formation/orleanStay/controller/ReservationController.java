@@ -43,6 +43,20 @@ public class ReservationController {
         return reservationService.findDTOById(id);
     }
 
+    @GetMapping("/requests/all")
+    @ResponseStatus(HttpStatus.OK)
+    public List<ReservationDTO> findAllRequests(){
+        log.debug("Fetching all reservation requests ");
+        return reservationService.findAllReservationRequests();
+    }
+
+    @GetMapping("/requests/owner/{ownerId}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<ReservationDTO> findAllRequestsByOwnerId(@PathVariable Long ownerId){
+        log.debug("Fetching all reservation requests with ownerId = {}", ownerId);
+        return reservationService.findReservationRequestsByOwnerId(ownerId);
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ReservationDTO create(@RequestBody ReservationSaveRequest reservationSaveRequest) {

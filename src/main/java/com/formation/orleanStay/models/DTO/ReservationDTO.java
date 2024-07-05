@@ -33,6 +33,8 @@ public class ReservationDTO {
 
     private Boolean depositReceived;
 
+    private Integer depositValue;
+
     private Traveller traveller;
 
     private String travellerMessage;

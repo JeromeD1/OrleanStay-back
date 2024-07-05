@@ -12,14 +12,29 @@ post {
 
 body:json {
   {
-    "login":"moi@email.com",
+    "login":"owner2@email.com",
     "password": "12345",
-        "firstname": "John",
-        "lastname": "Doe",
-        "email": "john.doe@example.com",
+        "firstname": "Sharlo",
+        "lastname": "Magne",
+        "email": "sharlo.magne@example.com",
         "phone": "1234567890",
+        "zipcode":"55 442",
         "address": "123 Main St",
-        "city": "Vancouver",
-        "country": "Canada"
+        "city": "Oula",
+        "country": "Bahhhh"
     }
+}
+
+script:post-response {
+  const cookies = res.getHeader('set-cookie');
+  
+  if(cookies) {
+    bru.setVar("cookie", cookies.join('; '));
+  }
+  
+  const token = res.getBody().token;
+  
+  if(token) {
+    bru.setVar("authorization", "Bearer " + token);
+  }
 }

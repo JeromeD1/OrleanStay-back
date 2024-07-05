@@ -2,7 +2,7 @@ package com.formation.orleanStay.service.impl;
 
 import com.formation.orleanStay.mapper.AppartmentMapper;
 import com.formation.orleanStay.models.DTO.AppartmentDTO;
-import com.formation.orleanStay.models.entity.*;
+import com.formation.orleanStay.models.DTO.AppartmentNameAndOwnerDTO;
 import com.formation.orleanStay.models.entity.*;
 import com.formation.orleanStay.models.request.AppartmentSaveRequest;
 import com.formation.orleanStay.repository.AppartmentRepository;
@@ -39,6 +39,14 @@ public class AppartmentServiceImpl implements AppartmentService {
                     return appartment;
                 })
                 .map(appartmentMapper::toAppartmentDTO)
+                .toList();
+    }
+
+    @Override
+    public List<AppartmentNameAndOwnerDTO> findAllNamesAndOwners() {
+        final List<Appartment> appartments = appartmentRepository.findAll();
+        return appartments.stream()
+                .map(appartmentMapper::toAppartmentNameAndOwnerDTO)
                 .toList();
     }
 

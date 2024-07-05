@@ -1,6 +1,7 @@
 package com.formation.orleanStay.service;
 
 import com.formation.orleanStay.models.DTO.AppartmentDTO;
+import com.formation.orleanStay.models.DTO.AppartmentNameAndOwnerDTO;
 import com.formation.orleanStay.models.request.AppartmentSaveRequest;
 import jakarta.annotation.security.PermitAll;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,9 @@ public interface AppartmentService {
 
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     List<AppartmentDTO> findAll();
+
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    List<AppartmentNameAndOwnerDTO> findAllNamesAndOwners();
 
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     @PermitAll

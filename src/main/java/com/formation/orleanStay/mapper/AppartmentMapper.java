@@ -1,5 +1,6 @@
 package com.formation.orleanStay.mapper;
 import com.formation.orleanStay.models.DTO.AppartmentDTO;
+import com.formation.orleanStay.models.DTO.AppartmentNameAndOwnerDTO;
 import com.formation.orleanStay.models.entity.Appartment;
 import com.formation.orleanStay.models.request.AppartmentSaveRequest;
 import org.mapstruct.*;
@@ -32,6 +33,14 @@ public interface AppartmentMapper {
      * @return the {@link AppartmentDTO} mapped from {@link Appartment}
      */
     AppartmentDTO toAppartmentDTO(Appartment appartment);
+
+    /**
+     * Mapping {@link Appartment} to {@link AppartmentNameAndOwnerDTO}
+     *
+     * @param appartment to map
+     * @return the {@link AppartmentNameAndOwnerDTO} mapped from {@link Appartment}
+     */
+    AppartmentNameAndOwnerDTO toAppartmentNameAndOwnerDTO(Appartment appartment);
 
 
     /**

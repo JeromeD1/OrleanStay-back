@@ -45,5 +45,7 @@ public class ReservationSaveRequest {
 
     private Boolean depositReceived;
 
+    private Integer depositValue;
+
     private String travellerMessage;
 }
