@@ -30,5 +30,14 @@ public interface ReservationService {
     ReservationDTO update(Long id, ReservationSaveRequest reservationSaveRequest);
 
     @Transactional(propagation = Propagation.REQUIRED)
+    ReservationDTO askForDeposit(Long id, ReservationSaveRequest reservationSaveRequest);
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    ReservationDTO rejectReservation(Long id, ReservationSaveRequest reservationSaveRequest);
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    ReservationDTO acceptReservation(Long id, ReservationSaveRequest reservationSaveRequest);
+
+    @Transactional(propagation = Propagation.REQUIRED)
     void delete(Long id);
 }

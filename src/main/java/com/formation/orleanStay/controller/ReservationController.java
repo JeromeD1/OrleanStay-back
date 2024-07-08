@@ -68,12 +68,33 @@ public class ReservationController {
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ReservationDTO update(@PathVariable Long id, @RequestBody ReservationSaveRequest reservationSaveRequest) {
-        log.debug("Updating reservation of if {} with value {}", id, reservationSaveRequest);
+        log.debug("Updating reservation of id {} with value {}", id, reservationSaveRequest);
         PersonalInformation actualPersonalInformation = findbyid.findPersonalInformationById(reservationSaveRequest.getTraveller().getPersonalInformations().getId());
         if(!comparePersonalInformation(reservationSaveRequest.getTraveller().getPersonalInformations(), actualPersonalInformation)){
             travellerService.update(reservationSaveRequest.getTraveller().getId(),reservationSaveRequest.getTraveller());
         }
         return reservationService.update(id, reservationSaveRequest);
+    }
+
+    @PutMapping("/{id}/askForDeposit")
+    @ResponseStatus(HttpStatus.OK)
+    public ReservationDTO askForDeposit(@PathVariable Long id, @RequestBody ReservationSaveRequest reservationSaveRequest) {
+        log.debug("Updating reservation of id {} with value {}", id, reservationSaveRequest);
+        return reservationService.askForDeposit(id, reservationSaveRequest);
+    }
+
+    @PutMapping("/{id}/accept")
+    @ResponseStatus(HttpStatus.OK)
+    public ReservationDTO acceptReservation(@PathVariable Long id, @RequestBody ReservationSaveRequest reservationSaveRequest) {
+        log.debug("Updating reservation of id {} with value {}", id, reservationSaveRequest);
+        return reservationService.acceptReservation(id, reservationSaveRequest);
+    }
+
+    @PutMapping("/{id}/reject")
+    @ResponseStatus(HttpStatus.OK)
+    public ReservationDTO rejectReservation(@PathVariable Long id, @RequestBody ReservationSaveRequest reservationSaveRequest) {
+        log.debug("Updating reservation of id {} with value {}", id, reservationSaveRequest);
+        return reservationService.rejectReservation(id, reservationSaveRequest);
     }
 
     @DeleteMapping("/{id}")

@@ -125,6 +125,21 @@ public class ReservationServiceImpl implements ReservationService {
         return reservationMapper.toReservationDTO(savedReservation);
     }
 
+    public ReservationDTO askForDeposit(Long id, ReservationSaveRequest reservationSaveRequest) {
+        //TODO send Email
+        return update(id, reservationSaveRequest);
+    }
+
+    public ReservationDTO rejectReservation(Long id, ReservationSaveRequest reservationSaveRequest) {
+        //TODO send Email
+        return update(id, reservationSaveRequest);
+    }
+
+    public ReservationDTO acceptReservation(Long id, ReservationSaveRequest reservationSaveRequest) {
+        //TODO send Email
+        return update(id, reservationSaveRequest);
+    }
+
     @Override
     public void delete(Long id){
         final Reservation reservationToDelete = findbyid.findReservationById(id);
