@@ -31,9 +31,9 @@ INSERT INTO Discount (week, month, is_week_activated, is_month_activated) VALUES
 
 -- Création de 3 appartements
 INSERT INTO Appartment (name, description, address, zipcode, city, google_map_url, distance_city_center, distance_train, distance_tram, night_price, caution, menage_court_sejour, menage_long_sejour, menage_longue_duree, type, is_active, discount_id, owner_id) VALUES
-('Appartement Lumineux', 'Un bel appartement avec vue sur la ville', '123 rue de la Paix', '75001', 'Paris', 'https://maps.google.com/?q=123+rue+de+la+Paix', '500m', '1km', '200m', 120, 300, 50, 70, 90, 'SAISONNIER', true, 1, 1),
-('Studio Moderne', 'Studio moderne parfait pour les courts séjours', '45 avenue du Général', '75002', 'Paris', 'https://maps.google.com/?q=45+avenue+du+Général', '1km', '500m', '100m', 80, 200, 30, 40, 60, 'LONGUE_DUREE', true, 2, 2),
-('Chambre Cosy', 'Petite chambre cosy près des commodités', '78 boulevard Magenta', '75010', 'Paris', 'https://maps.google.com/?q=78+boulevard+Magenta', '2km', '1.5km', '300m', 60, 150, 20, 30, 40, 'SAISONNIER', false, 3, 2);
+('Ambert 1', 'Studio (28m²) avec mezzanine et terrasse', '59 rue d Ambert', '45000', 'Orléans', 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10632.483433538391!2d1.9153119798149716!3d47.90269288714803!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e4fb548918cbb3%3A0x9f97d3eb2f127df7!2s59%20Rue%20d%27Ambert%2C%2045000%20Orl%C3%A9ans!5e0!3m2!1sfr!2sfr!4v1707226894953!5m2!1sfr!2sfr', 'A 10 minutes en tram', 'A 10 minutes en tram', 'A 50m du tram', 50, 300, 30, 50, 50, 'SAISONNIER', true, 1, 1),
+('Ambert 4', 'Grand studio (32m²) + mezzanine', '59 rue d Ambert', '45000', 'Orléans', 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10632.483433538391!2d1.9153119798149716!3d47.90269288714803!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e4fb548918cbb3%3A0x9f97d3eb2f127df7!2s59%20Rue%20d%27Ambert%2C%2045000%20Orl%C3%A9ans!5e0!3m2!1sfr!2sfr!4v1707226894953!5m2!1sfr!2sfr', 'A 10 minutes en tram', 'A 10 minutes en tram', 'A 50m du tram', 50, 300, 30, 50, 50, 'SAISONNIER', true, 1, 1),
+('Ambert 5', 'Studio (20m²) + mezzanine', '59 rue d Ambert', '45000', 'Orléans', 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10632.483433538391!2d1.9153119798149716!3d47.90269288714803!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e4fb548918cbb3%3A0x9f97d3eb2f127df7!2s59%20Rue%20d%27Ambert%2C%2045000%20Orl%C3%A9ans!5e0!3m2!1sfr!2sfr!4v1707226894953!5m2!1sfr!2sfr', 'A 10 minutes en tram', 'A 10 minutes en tram', 'A 50m du tram', 50, 300, 30, 50, 50, 'SAISONNIER', true, 1, 1);
 
 
 -- Création d'infos liées aux appartements
@@ -57,13 +57,41 @@ INSERT INTO Appartment_info (info, Appartment_id, position_order) VALUES ('Isola
 
 
 -- Création de photos liées aux appartements
-INSERT INTO Appartment_photo (img_url, position_order, Appartment_id) VALUES ('monImageUrl1', 1, 1);
-INSERT INTO Appartment_photo (img_url, position_order, Appartment_id) VALUES ('monImageUrl2', 2, 1);
+INSERT INTO Appartment_photo (img_url, position_order, Appartment_id) VALUES ('https://res.cloudinary.com/dqizqxdgn/image/upload/t_horizontal-w1000/v1720443884/image0_knsnk4.jpg', 1, 1);
+INSERT INTO Appartment_photo (img_url, position_order, Appartment_id) VALUES ('https://res.cloudinary.com/dqizqxdgn/image/upload/t_horizontal-w1000/v1720444200/image1_rphzfz.jpg', 2, 1);
+INSERT INTO Appartment_photo (img_url, position_order, Appartment_id) VALUES ('https://res.cloudinary.com/dqizqxdgn/image/upload/t_horizontal-w1000/v1720444417/image2_mjgajz.jpg', 3, 1);
+INSERT INTO Appartment_photo (img_url, position_order, Appartment_id) VALUES ('https://res.cloudinary.com/dqizqxdgn/image/upload/t_horizontal-w1000/v1720444466/image3_b4fnfu.jpg', 4, 1);
+INSERT INTO Appartment_photo (img_url, position_order, Appartment_id) VALUES ('https://res.cloudinary.com/dqizqxdgn/image/upload/t_vertical-w1000/v1720444523/image4_uy8iij.jpg', 5, 1);
+INSERT INTO Appartment_photo (img_url, position_order, Appartment_id) VALUES ('https://res.cloudinary.com/dqizqxdgn/image/upload/t_horizontal-w1000/v1720444998/image5_gdvh2y.jpg', 6, 1);
+INSERT INTO Appartment_photo (img_url, position_order, Appartment_id) VALUES ('https://res.cloudinary.com/dqizqxdgn/image/upload/t_horizontal-w1000/v1720445144/image6_emqf3w.jpg', 7, 1);
+INSERT INTO Appartment_photo (img_url, position_order, Appartment_id) VALUES ('https://res.cloudinary.com/dqizqxdgn/image/upload/t_horizontal-w1000/v1720445194/image7_lqyt1k.jpg', 8, 1);
+INSERT INTO Appartment_photo (img_url, position_order, Appartment_id) VALUES ('https://res.cloudinary.com/dqizqxdgn/image/upload/t_vertical-w1000/v1720445268/image11_aokkmy.jpg', 9, 1);
+INSERT INTO Appartment_photo (img_url, position_order, Appartment_id) VALUES ('https://res.cloudinary.com/dqizqxdgn/image/upload/t_vertical-w1000/v1720445343/image12_gw9pnu.jpg', 10, 1);
 
-INSERT INTO Appartment_photo (img_url, position_order, Appartment_id) VALUES ('monImageUrl3', 1, 2);
-INSERT INTO Appartment_photo (img_url, position_order, Appartment_id) VALUES ('monImageUrl4', 2, 2);
+INSERT INTO Appartment_photo (img_url, position_order, Appartment_id) VALUES ('https://res.cloudinary.com/dqizqxdgn/image/upload/t_horizontal-w1000/v1720446069/image0_e5hsku.jpg', 1, 2);
+INSERT INTO Appartment_photo (img_url, position_order, Appartment_id) VALUES ('https://res.cloudinary.com/dqizqxdgn/image/upload/t_horizontal-w1000/v1720446129/image1_agdm20.jpg', 2, 2);
+INSERT INTO Appartment_photo (img_url, position_order, Appartment_id) VALUES ('https://res.cloudinary.com/dqizqxdgn/image/upload/t_horizontal-w1000/v1720446167/image2_itswcn.jpg', 3, 2);
+INSERT INTO Appartment_photo (img_url, position_order, Appartment_id) VALUES ('https://res.cloudinary.com/dqizqxdgn/image/upload/t_vertical-w1000/v1720446234/image4_fu87bi.jpg', 4, 2);
+INSERT INTO Appartment_photo (img_url, position_order, Appartment_id) VALUES ('https://res.cloudinary.com/dqizqxdgn/image/upload/t_vertical-w1000/v1720446292/image5_xzgvrp.jpg', 5, 2);
+INSERT INTO Appartment_photo (img_url, position_order, Appartment_id) VALUES ('https://res.cloudinary.com/dqizqxdgn/image/upload/t_horizontal-w1000/v1720446365/image6_qs92fn.jpg', 6, 2);
+INSERT INTO Appartment_photo (img_url, position_order, Appartment_id) VALUES ('https://res.cloudinary.com/dqizqxdgn/image/upload/t_horizontal-w1000/v1720446396/image7_vcf1hq.jpg', 7, 2);
+INSERT INTO Appartment_photo (img_url, position_order, Appartment_id) VALUES ('https://res.cloudinary.com/dqizqxdgn/image/upload/t_vertical-w1000/v1720446433/image8_pgk4ak.jpg', 8, 2);
+INSERT INTO Appartment_photo (img_url, position_order, Appartment_id) VALUES ('https://res.cloudinary.com/dqizqxdgn/image/upload/t_horizontal-w1000/v1720446467/image9_qsu7vd.jpg', 9, 2);
+INSERT INTO Appartment_photo (img_url, position_order, Appartment_id) VALUES ('https://res.cloudinary.com/dqizqxdgn/image/upload/t_horizontal-w1000/v1720446528/image10_xiin1g.jpg', 10, 2);
+INSERT INTO Appartment_photo (img_url, position_order, Appartment_id) VALUES ('https://res.cloudinary.com/dqizqxdgn/image/upload/t_vertical-w1000/v1720445268/image11_aokkmy.jpg', 11, 2);
+INSERT INTO Appartment_photo (img_url, position_order, Appartment_id) VALUES ('https://res.cloudinary.com/dqizqxdgn/image/upload/t_vertical-w1000/v1720445343/image12_gw9pnu.jpg', 12, 2);
 
-INSERT INTO Appartment_photo (img_url, position_order, Appartment_id) VALUES ('monImageUrl5', 1, 3);
+
+
+INSERT INTO Appartment_photo (img_url, position_order, Appartment_id) VALUES ('https://res.cloudinary.com/dqizqxdgn/image/upload/t_horizontal-w1000/v1720446790/image1_fyj4tj.jpg', 1, 3);
+INSERT INTO Appartment_photo (img_url, position_order, Appartment_id) VALUES ('https://res.cloudinary.com/dqizqxdgn/image/upload/t_horizontal-w1000/v1720446819/image2_uv23cn.jpg', 2, 3);
+INSERT INTO Appartment_photo (img_url, position_order, Appartment_id) VALUES ('https://res.cloudinary.com/dqizqxdgn/image/upload/t_horizontal-w1000/v1720446846/image3_sqgysp.jpg', 3, 3);
+INSERT INTO Appartment_photo (img_url, position_order, Appartment_id) VALUES ('https://res.cloudinary.com/dqizqxdgn/image/upload/t_vertical-w1000/v1720446877/image4_hhkyh3.jpg', 4, 3);
+INSERT INTO Appartment_photo (img_url, position_order, Appartment_id) VALUES ('https://res.cloudinary.com/dqizqxdgn/image/upload/t_vertical-w1000/v1720446908/image5_gegzwc.jpg', 5, 3);
+INSERT INTO Appartment_photo (img_url, position_order, Appartment_id) VALUES ('https://res.cloudinary.com/dqizqxdgn/image/upload/t_horizontal-w1000/v1720446467/image9_qsu7vd.jpg', 6, 3);
+INSERT INTO Appartment_photo (img_url, position_order, Appartment_id) VALUES ('https://res.cloudinary.com/dqizqxdgn/image/upload/t_horizontal-w1000/v1720446528/image10_xiin1g.jpg', 7, 3);
+INSERT INTO Appartment_photo (img_url, position_order, Appartment_id) VALUES ('https://res.cloudinary.com/dqizqxdgn/image/upload/t_vertical-w1000/v1720445268/image11_aokkmy.jpg', 8, 3);
+INSERT INTO Appartment_photo (img_url, position_order, Appartment_id) VALUES ('https://res.cloudinary.com/dqizqxdgn/image/upload/t_vertical-w1000/v1720445343/image12_gw9pnu.jpg', 9, 3);
 
 
 -- Création de réservations liees aux appartements et aux travellers

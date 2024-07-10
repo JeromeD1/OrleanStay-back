@@ -23,71 +23,71 @@ public class Appartment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(nullable = false)
     @NotNull
     private String name;
 
-    @Column
+    @Column(nullable = false)
     @NotNull
     private String description;
 
-    @Column
+    @Column(nullable = false)
     @NotNull
     private String address;
 
-    @Column(length = 10)
+    @Column(length = 10, nullable = false)
     @Size(max = 10)
     @NotNull
     private String zipcode;
 
-    @Column(length = 100)
+    @Column(length = 100, nullable = false)
     @Size(max = 100)
     @NotNull
     private String city;
 
-    @Column(length = 5000)
+    @Column(length = 5000, nullable = false)
     @Size(max = 5000)
     @NotNull
     private String googleMapUrl;
 
-    @Column(name = "distanceCityCenter")
+    @Column(name = "distanceCityCenter", nullable = false)
     @NotNull
     private String distanceCityCenter;
 
-    @Column(name = "distanceTrain")
+    @Column(name = "distanceTrain", nullable = false)
     @NotNull
     private String distanceTrain;
 
-    @Column(name = "distanceTram")
+    @Column(name = "distanceTram", nullable = false)
     @NotNull
     private String distanceTram;
 
-    @Column(name = "nightPrice")
+    @Column(name = "nightPrice", nullable = false)
     @NotNull
     private int nightPrice;
 
-    @Column
+    @Column(nullable = false)
     @NotNull
     private int caution;
 
-    @Column
+    @Column(nullable = false)
     @NotNull
     private int menageCourtSejour;
 
-    @Column
+    @Column(nullable = false)
     @NotNull
     private int menageLongSejour;
 
-    @Column
+    @Column(nullable = false)
     @NotNull
     private int menageLongueDuree;
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 15)
+    @Column(length = 15, nullable = false)
     @NotNull
     private EAppartmentType type;
 
-    @Column(name = "isActive", columnDefinition = "boolean default true")
+    @Column(name = "isActive", columnDefinition = "boolean default true", nullable = false)
     @JsonProperty("isActive")
     private Boolean active = true;
 
@@ -105,12 +105,12 @@ public class Appartment {
 
 //    @NotNull
     @ManyToOne
-    @JoinColumn(name = "discount_id", foreignKey = @ForeignKey(name = "fk_appartment_discount"))
+    @JoinColumn(name = "discount_id", foreignKey = @ForeignKey(name = "fk_appartment_discount"), nullable = false)
     private Discount discounts;
 
 //    @NotNull
     @ManyToOne
-    @JoinColumn(name = "owner_id",  referencedColumnName = "id",  foreignKey = @ForeignKey(name = "fk_appartment_user"))
+    @JoinColumn(name = "owner_id",  referencedColumnName = "id",  foreignKey = @ForeignKey(name = "fk_appartment_user"), nullable = false)
     @JsonIgnore
     private Utilisateur owner;
 

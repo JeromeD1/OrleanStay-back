@@ -4,6 +4,7 @@ import com.formation.orleanStay.models.DTO.AppartmentDTO;
 import com.formation.orleanStay.models.DTO.AppartmentNameAndOwnerDTO;
 import com.formation.orleanStay.models.request.AppartmentSaveRequest;
 import com.formation.orleanStay.service.AppartmentService;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.GrantedAuthority;
@@ -62,14 +63,14 @@ public class AppartmentController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public AppartmentDTO create(@RequestBody AppartmentSaveRequest appartmentSaveRequest) {
+    public AppartmentDTO create(@Valid @RequestBody AppartmentSaveRequest appartmentSaveRequest) {
         log.debug("Creating a new appartment : {}", appartmentSaveRequest);
         return appartmentService.create(appartmentSaveRequest);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public AppartmentDTO update(@PathVariable Long id, @RequestBody AppartmentSaveRequest appartmentSaveRequest) {
+    public AppartmentDTO update(@PathVariable Long id, @Valid @RequestBody AppartmentSaveRequest appartmentSaveRequest) {
         log.debug("Updating appartment with id {} and values : {}", id, appartmentSaveRequest);
         return appartmentService.update(id, appartmentSaveRequest);
     }

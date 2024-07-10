@@ -4,6 +4,7 @@ import com.formation.orleanStay.models.entity.Discount;
 import com.formation.orleanStay.models.entity.Utilisateur;
 import com.formation.orleanStay.models.enumeration.EAppartmentType;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
@@ -11,7 +12,7 @@ public class AppartmentSaveRequest {
 
     private Long id;
 
-    @NotBlank
+    @NotNull
     private Long ownerId;
 
     @NotBlank
@@ -41,27 +42,27 @@ public class AppartmentSaveRequest {
     @NotBlank
     private String distanceTram;
 
-    @NotBlank
+    @NotNull
     private int nightPrice;
 
-    @NotBlank
+    @NotNull
     private int caution;
 
-    @NotBlank
+    @NotNull
     private int menageCourtSejour;
 
-    @NotBlank
+    @NotNull
     private int menageLongSejour;
 
-    @NotBlank
+    @NotNull
     private int menageLongueDuree;
 
-    @NotBlank
+    @NotNull
     private EAppartmentType type;
 
     private Boolean active;
 
-    @NotBlank
+    @NotNull
     private Long discountId;
 
     private Discount discounts;
