@@ -1,5 +1,7 @@
 package com.formation.orleanStay.service.impl;
 
+import com.cloudinary.Cloudinary;
+import com.formation.orleanStay.cloudinary.CloudinaryService;
 import com.formation.orleanStay.mapper.PhotoMapper;
 import com.formation.orleanStay.models.DTO.PhotoDTO;
 import com.formation.orleanStay.models.entity.Appartment;
@@ -9,26 +11,25 @@ import com.formation.orleanStay.models.request.PhotoSaveRequest;
 import com.formation.orleanStay.repository.PhotoRepository;
 import com.formation.orleanStay.service.PhotoService;
 import com.formation.orleanStay.utils.Findbyid;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class PhotoServiceImpl implements PhotoService {
 
     final private PhotoRepository photoRepository;
     final private PhotoMapper photoMapper;
     final private Findbyid findbyid;
+    final private CloudinaryService cloudinaryService;
 
 
-    public PhotoServiceImpl(PhotoRepository photoRepository, PhotoMapper photoMapper, Findbyid findbyid){
-        this.photoRepository = photoRepository;
-        this.photoMapper = photoMapper;
-        this.findbyid = findbyid;
-    }
 
     @Override
     public List<PhotoDTO> findAll() {
@@ -124,9 +125,34 @@ public class PhotoServiceImpl implements PhotoService {
     }
 
     @Override
-    public void delete(Long id) {
+    public List<PhotoDTO> delete(Long id, String imgId) throws IOException {
+        System.out.println("imgId: " + imgId);
+        cloudinaryService.deleteImage(imgId);
+        System.out.println("passé etape cloudinary");
         final Photo photoToDelete = findbyid.findPhotoById(id);
+        final Integer deletedPositionOrder = photoToDelete.getPositionOrder();
+        final Long deletedPhotoId = photoToDelete.getAppartment().getId();
         photoRepository.delete(photoToDelete);
+
+        //récupération de toutes les photos de l'appartement pour mettre à jour l'ordre
+        List<Photo> photos = photoRepository.findByAppartment_Id(deletedPhotoId);
+
+        photos.forEach(photo -> {
+            if(photo.getPositionOrder() > deletedPositionOrder) {
+                photo.setPositionOrder(photo.getPositionOrder() - 1);
+                photoRepository.save(photo);
+            }
+                }
+        );
+
+        System.out.println(photos);
+        System.out.println(photos.toString());
+        System.out.println(photos.stream().map(photoMapper::toPhotoDTO).toList());
+        System.out.println(photos.stream().map(photoMapper::toPhotoDTO).toList().toString());
+        return photos.stream()
+                .map(photoMapper::toPhotoDTO)
+                .sorted(Comparator.comparing(PhotoDTO::getPositionOrder))
+                .toList();
     }
 
 }

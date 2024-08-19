@@ -13,3 +13,17 @@ get {
 headers {
   Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtb2k0QGVtYWlsLmNvbSIsImlhdCI6MTcxOTU4MjYzMiwiZXhwIjoxNzE5NTg0NDMyfQ.MR2R0MqYOhgRdBFl05jBWjyHvrCDCysswPjQZVSBguA
 }
+
+script:pre-request {
+  const cookie = bru.getVar("cookie");
+  
+  if(cookie) {
+    req.setHeader("Cookie", cookie)
+  }
+  
+  const token = bru.getVar("authorization");
+  
+  if(token) {
+    req.setHeader("authorization", token);
+  }
+}

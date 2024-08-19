@@ -6,8 +6,10 @@ import com.formation.orleanStay.models.request.PhotoSaveRequest;
 import com.formation.orleanStay.service.PhotoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -59,14 +61,18 @@ public class PhotoController {
     @PutMapping("/updateOrder/{appartmentId}")
     @ResponseStatus(HttpStatus.OK)
     public List<PhotoDTO> udpateOrder(@PathVariable Long appartmentId, @RequestBody PhotoListSaveRequest photosToReorder){
+        System.out.println(photosToReorder);
+        System.out.println("appartmentId : " + appartmentId);
         log.debug("Updating order of photos with appartementId {} and values {}", appartmentId, photosToReorder);
         return photoService.updateOrder(appartmentId, photosToReorder);
     }
 
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id){
+    @DeleteMapping("/{id}/imgId/{imgId}")
+    public ResponseEntity<List<PhotoDTO>> delete(@PathVariable Long id, @PathVariable String imgId) throws IOException {
         log.debug("Deleting photo with id {}", id);
-        photoService.delete(id);
+        List<PhotoDTO> photos = photoService.delete(id, imgId);
+        System.out.println("photos in controller :" + photos);
+        System.out.println( "photos.size() " + photos.size());
+        return ResponseEntity.ok(photos);
     }
 }

@@ -88,7 +88,9 @@ public class RequestAutorizationConfig {
                 .requestMatchers(GET, PHOTO_ENDPOINT).authenticated()
                 .requestMatchers(POST, PHOTO_ENDPOINT).hasAnyRole(OWNER, ADMIN)
                 .requestMatchers(PUT, PHOTO_ENDPOINT).hasAnyRole(OWNER, ADMIN)
-                .requestMatchers(DELETE, PHOTO_ENDPOINT).hasAnyRole(OWNER, ADMIN)
+//                .requestMatchers(PUT, "/photo/updateOrder/**").hasAnyRole(OWNER, ADMIN)
+                .requestMatchers(DELETE, "/photo/{id}/imgId/**").hasAnyRole(OWNER, ADMIN)
+//                .requestMatchers(DELETE, PHOTO_ENDPOINT).hasAnyRole(OWNER, ADMIN)
 
                 .requestMatchers(GET, "/reservation/requests/all").hasAnyRole(ADMIN)
                 .requestMatchers(GET, "/reservation/requests/**").hasAnyRole(OWNER, ADMIN)
@@ -112,9 +114,11 @@ public class RequestAutorizationConfig {
                 .requestMatchers(PUT, UTILISATEUR_ENDPOINT).hasAnyRole(ADMIN)
                 .requestMatchers(DELETE, UTILISATEUR_ENDPOINT).hasAnyRole(ADMIN)
 
+                .requestMatchers(GET, "/cloudinary/signature").hasAnyRole(ADMIN, OWNER)
 
 
-                .anyRequest().denyAll();
+
+                .anyRequest().permitAll();
     }
 
 

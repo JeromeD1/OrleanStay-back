@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -34,5 +35,5 @@ public interface PhotoService {
     List<PhotoDTO> updateOrder(Long id, PhotoListSaveRequest photosToReorder);
 
     @Transactional(propagation = Propagation.REQUIRED)
-    void delete(Long id);
+    List<PhotoDTO> delete(Long id, String imgId) throws IOException;
 }

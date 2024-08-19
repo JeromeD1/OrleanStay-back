@@ -5,7 +5,21 @@ meta {
 }
 
 delete {
-  url: http://localhost:8080/photo/1
+  url: http://localhost:8080/photo/41/imgId/OrleanStay-upruvdbikyc1jybqamtr
   body: none
   auth: none
+}
+
+script:pre-request {
+  const cookie = bru.getVar("cookie");
+  
+  if(cookie) {
+    req.setHeader("Cookie", cookie)
+  }
+  
+  const token = bru.getVar("authorization");
+  
+  if(token) {
+    req.setHeader("authorization", token);
+  }
 }

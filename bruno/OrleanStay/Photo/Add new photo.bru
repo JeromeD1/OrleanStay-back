@@ -21,3 +21,17 @@ body:json {
       "imgUrl": "monImageUrl test 5.3"
     }
 }
+
+script:pre-request {
+  const cookie = bru.getVar("cookie");
+  
+  if(cookie) {
+    req.setHeader("Cookie", cookie)
+  }
+  
+  const token = bru.getVar("authorization");
+  
+  if(token) {
+    req.setHeader("authorization", token);
+  }
+}

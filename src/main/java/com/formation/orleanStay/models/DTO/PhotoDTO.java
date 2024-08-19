@@ -1,12 +1,14 @@
 package com.formation.orleanStay.models.DTO;
 
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
-@EqualsAndHashCode
+//@Getter
+//@Setter
+//@EqualsAndHashCode
+@Data
 public class PhotoDTO {
     private Long id;
 
