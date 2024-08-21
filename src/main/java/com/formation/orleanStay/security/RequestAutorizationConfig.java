@@ -25,7 +25,7 @@ public class RequestAutorizationConfig {
     private static final String INFO_ENDPOINT = "/info/**";
     private static final String PERSONAL_INFORMATION_ENDPOINT = "/personalInformation/**";
     private static final String PHOTO_ENDPOINT = "/photo/**";
-    private static final String PRIVATE_PHOTO_ENDPOINT = "/privatePhoto/**";
+    private static final String TRAVEL_INFO = "/travelInfo/**";
     private static final String RESERVATION_ENDPOINT = "/reservation/**";
     private static final String RESERVATION_CHAT_ENDPOINT = "/reservationChat/**";
     private static final String TRAVELLER_ENDPOINT = "/traveller/**";
@@ -55,10 +55,10 @@ public class RequestAutorizationConfig {
                 .requestMatchers(PUT, APPARTMENT_ENDPOINT).hasAnyRole(OWNER, ADMIN)
                 .requestMatchers(DELETE, APPARTMENT_ENDPOINT).hasAnyRole(OWNER, ADMIN)
 
-                .requestMatchers(GET, PRIVATE_PHOTO_ENDPOINT).authenticated()
-                .requestMatchers(POST, PRIVATE_PHOTO_ENDPOINT).hasAnyRole(OWNER, ADMIN)
-                .requestMatchers(PUT, PRIVATE_PHOTO_ENDPOINT).hasAnyRole(OWNER, ADMIN)
-                .requestMatchers(DELETE, PRIVATE_PHOTO_ENDPOINT).hasAnyRole(OWNER, ADMIN)
+                .requestMatchers(GET, TRAVEL_INFO).permitAll()
+                .requestMatchers(POST, TRAVEL_INFO).hasAnyRole(OWNER, ADMIN)
+                .requestMatchers(PUT, TRAVEL_INFO).hasAnyRole(OWNER, ADMIN)
+                .requestMatchers(DELETE, TRAVEL_INFO).hasAnyRole(OWNER, ADMIN)
 
                 .requestMatchers(GET, DISCOUNT_ENDPOINT).authenticated()
                 .requestMatchers(POST, DISCOUNT_ENDPOINT).hasAnyRole(OWNER, ADMIN)

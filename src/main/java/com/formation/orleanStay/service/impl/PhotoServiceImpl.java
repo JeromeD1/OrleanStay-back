@@ -130,9 +130,8 @@ public class PhotoServiceImpl implements PhotoService {
 
     @Override
     public List<PhotoDTO> delete(Long id, String imgId) throws IOException {
-        System.out.println("imgId: " + imgId);
         cloudinaryService.deleteImage(imgId);
-        System.out.println("passé etape cloudinary");
+
         final Photo photoToDelete = findbyid.findPhotoById(id);
         final Integer deletedPositionOrder = photoToDelete.getPositionOrder();
         final Long deletedPhotoId = photoToDelete.getAppartment().getId();
@@ -149,10 +148,6 @@ public class PhotoServiceImpl implements PhotoService {
                 }
         );
 
-        System.out.println(photos);
-        System.out.println(photos.toString());
-        System.out.println(photos.stream().map(photoMapper::toPhotoDTO).toList());
-        System.out.println(photos.stream().map(photoMapper::toPhotoDTO).toList().toString());
         return photos.stream()
                 .map(photoMapper::toPhotoDTO)
                 .sorted(Comparator.comparing(PhotoDTO::getPositionOrder))
