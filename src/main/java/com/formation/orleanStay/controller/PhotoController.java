@@ -51,11 +51,11 @@ public class PhotoController {
         return photoService.create(photoSaveRequest);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}/oldImgId/{oldImgId}")
     @ResponseStatus(HttpStatus.OK)
-    public PhotoDTO update(@PathVariable Long id, @RequestBody PhotoSaveRequest photoSaveRequest) {
+    public PhotoDTO update(@PathVariable Long id, @PathVariable String oldImgId, @RequestBody PhotoSaveRequest photoSaveRequest) throws IOException {
         log.debug("Updating photo of id {} with value {}", id, photoSaveRequest);
-        return photoService.update(id, photoSaveRequest);
+        return photoService.update(id, oldImgId, photoSaveRequest);
     }
 
     @PutMapping("/updateOrder/{appartmentId}")

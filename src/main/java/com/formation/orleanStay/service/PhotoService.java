@@ -19,21 +19,15 @@ public interface PhotoService {
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     PhotoDTO findDTOById(Long id);
 
-//    @Transactional(propagation = Propagation.REQUIRED)
-//    PhotoDTO create(PhotoSaveRequest photoSaveRequest);
-//
-//    @Transactional(propagation = Propagation.REQUIRED)
-//    PhotoDTO update(Long id, PhotoSaveRequest photoSaveRequest);
-
     @Transactional(propagation = Propagation.REQUIRED)
     List<PhotoDTO> create(PhotoSaveRequest photoSaveRequest);
 
     @Transactional(propagation = Propagation.REQUIRED)
-    PhotoDTO update(Long id, PhotoSaveRequest photoSaveRequest);
+    PhotoDTO update(Long id, String imgId, PhotoSaveRequest photoSaveRequest) throws IOException;
 
     @Transactional(propagation = Propagation.REQUIRED)
     List<PhotoDTO> updateOrder(Long id, PhotoListSaveRequest photosToReorder);
 
     @Transactional(propagation = Propagation.REQUIRED)
-    List<PhotoDTO> delete(Long id, String imgId) throws IOException;
+    List<PhotoDTO> delete(Long id, String oldImgId) throws IOException;
 }

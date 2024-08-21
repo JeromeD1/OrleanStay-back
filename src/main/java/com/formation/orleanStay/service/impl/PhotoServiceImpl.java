@@ -79,7 +79,7 @@ public class PhotoServiceImpl implements PhotoService {
 
 
     @Override
-    public PhotoDTO update(Long id, PhotoSaveRequest photoSaveRequest){
+    public PhotoDTO update(Long id, String oldImgId, PhotoSaveRequest photoSaveRequest) throws IOException {
         photoSaveRequest.setId(id);
         //Récupération de l'appartement suivant sa référence (id)
         final Appartment appartment = findbyid.findAppartmentById(photoSaveRequest.getAppartmentId());
@@ -91,6 +91,10 @@ public class PhotoServiceImpl implements PhotoService {
         photoMapper.overrideFromPhotoSaveRequest(photoSaveRequest, photoToUpdate);
         //sauvegarde de la photo modifiée
         final Photo savedPhoto = photoRepository.save(photoToUpdate);
+
+        //suppression de l'ancienne photo
+        cloudinaryService.deleteImage(oldImgId);
+
         //renvoi de la photo modifiée au format DTO
         return photoMapper.toPhotoDTO(savedPhoto);
     }
