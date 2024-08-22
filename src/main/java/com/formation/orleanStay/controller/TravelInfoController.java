@@ -22,7 +22,7 @@ public class TravelInfoController {
 
     private final TravelInfoService travelInfoService;
 
-    @GetMapping("/{appartmentId}")
+    @GetMapping("/appartment/{appartmentId}")
     @ResponseStatus(HttpStatus.OK)
     public List<TravelInfoDTO> findByAppartmentId(@PathVariable Long appartmentId){
         log.debug("Fetching all travelPhoto from appartment of id {}", appartmentId);
@@ -43,7 +43,7 @@ public class TravelInfoController {
         return travelInfoService.update(id, saveRequest, oldImgId);
     }
 
-    @PutMapping("/appartmentId")
+    @PutMapping("/appartment/{appartmentId}")
     @ResponseStatus(HttpStatus.OK)
     public List<TravelInfoDTO> updateOrder(@PathVariable Long appartmentId ,@RequestBody TravelInfoListSaveRequest travelInfoDTOList){
         log.debug("Updating travelInfo position orders from {}", travelInfoDTOList);

@@ -33,6 +33,7 @@ public class TravelInfoServiceImpl implements TravelInfoService {
         return travelInfoRepository.findByAppartment_Id(appartmentId)
                 .stream()
                 .map(travelInfoMapper::toTravelInfoDTO)
+                .sorted(Comparator.comparing(TravelInfoDTO::getPositionOrder))
                 .toList();
     }
 
