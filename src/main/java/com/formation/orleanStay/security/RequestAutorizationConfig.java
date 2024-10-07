@@ -109,6 +109,7 @@ public class RequestAutorizationConfig {
                 .requestMatchers(PUT, TRAVELLER_ENDPOINT).hasAnyRole(ADMIN)
                 .requestMatchers(DELETE, TRAVELLER_ENDPOINT).hasAnyRole(ADMIN)
 
+                .requestMatchers(PUT, "/utilisateurs/{id}/password").authenticated()
                 .requestMatchers(GET, UTILISATEUR_ENDPOINT).hasAnyRole(ADMIN)
                 .requestMatchers(POST, UTILISATEUR_ENDPOINT).hasAnyRole(ADMIN)
                 .requestMatchers(PUT, UTILISATEUR_ENDPOINT).hasAnyRole(ADMIN)

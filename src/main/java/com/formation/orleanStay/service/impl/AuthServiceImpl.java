@@ -25,12 +25,12 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
-    final private UtilisateurRepository utilisateurRepository;
-    final private PersonalInformationRepository personalInformationRepository;
-    final private UtilisateurMapper utilisateurMapper;
-    final private PersonalInformationMapper personalInformationMapper;
-    final private Findbyid findbyid;
-    final private BCryptPasswordEncoder passwordEncoder;
+    private final UtilisateurRepository utilisateurRepository;
+    private final PersonalInformationRepository personalInformationRepository;
+    private final UtilisateurMapper utilisateurMapper;
+    private final PersonalInformationMapper personalInformationMapper;
+    private final Findbyid findbyid;
+    private final BCryptPasswordEncoder passwordEncoder;
     private final JwtUtils jwtUtils;
 
 

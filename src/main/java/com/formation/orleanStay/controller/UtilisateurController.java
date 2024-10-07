@@ -2,7 +2,9 @@ package com.formation.orleanStay.controller;
 
 import com.formation.orleanStay.models.DTO.UtilisateurDTO;
 import com.formation.orleanStay.models.enumeration.ERole;
+import com.formation.orleanStay.models.request.ChangePasswordSaveRequest;
 import com.formation.orleanStay.service.UtilisateurService;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -63,6 +65,13 @@ public class UtilisateurController {
         ERole newRole = ERole.valueOf(newRoleStr);
         log.debug("Modification du role de l'utilisateur avec l'id {} et le role {}", id, newRole);
         return utilisateurService.updateRole(id, newRole);
+    }
+
+    @PutMapping("/{id}/password")
+    @ResponseStatus(HttpStatus.OK)
+    public Long updatePassword(@PathVariable Long id, @RequestBody @Valid ChangePasswordSaveRequest changePasswordSaveRequest) {
+        log.debug("Modification du mot de passe de l'utilisateur avec l'id {}", id);
+        return utilisateurService.updatePassword(id, changePasswordSaveRequest);
     }
 
 }

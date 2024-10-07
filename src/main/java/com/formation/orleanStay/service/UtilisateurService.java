@@ -2,6 +2,7 @@ package com.formation.orleanStay.service;
 
 import com.formation.orleanStay.models.DTO.UtilisateurDTO;
 import com.formation.orleanStay.models.enumeration.ERole;
+import com.formation.orleanStay.models.request.ChangePasswordSaveRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,4 +29,7 @@ public interface UtilisateurService {
 
     @Transactional(propagation = Propagation.REQUIRED)
     UtilisateurDTO updateRole(Long id, ERole newRole);
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    Long updatePassword(Long id, ChangePasswordSaveRequest changePasswordSaveRequest);
 }

@@ -6,12 +6,14 @@ import com.formation.orleanStay.models.DTO.AppartmentDTO;
 import com.formation.orleanStay.models.DTO.UtilisateurDTO;
 import com.formation.orleanStay.models.entity.Utilisateur;
 import com.formation.orleanStay.models.enumeration.ERole;
+import com.formation.orleanStay.models.request.ChangePasswordSaveRequest;
 import com.formation.orleanStay.repository.UtilisateurRepository;
 import com.formation.orleanStay.service.AppartmentService;
 import com.formation.orleanStay.service.UtilisateurService;
 import com.formation.orleanStay.utils.Findbyid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,10 +23,11 @@ import java.util.List;
 @Slf4j
 @AllArgsConstructor
 public class UtilisateurServiceImpl implements UtilisateurService {
-    final private UtilisateurRepository utilisateurRepository;
-    final private UtilisateurMapper utilisateurMapper;
-    final private Findbyid findbyid;
-    final private AppartmentService appartmentService;
+    private final UtilisateurRepository utilisateurRepository;
+    private final UtilisateurMapper utilisateurMapper;
+    private final Findbyid findbyid;
+    private final AppartmentService appartmentService;
+    private final BCryptPasswordEncoder passwordEncoder;
 
 
     @Override
@@ -80,6 +83,27 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         utilisateur.setRole(newRole);
         Utilisateur updatedUtilisateur = utilisateurRepository.save(utilisateur);
         return utilisateurMapper.toUtilisateurDTO(updatedUtilisateur);
+    }
+
+    @Override
+    public Long updatePassword(Long id, ChangePasswordSaveRequest changePasswordSaveRequest) {
+        final Utilisateur utilisateur = findbyid.findUtilisateurById(id);
+        if(!verifyPassword(changePasswordSaveRequest.getOldPassword(), utilisateur.getPassword())) {
+            throw new RuntimeException("L'identifiant ou le mot de passe n'est pas correct.");
+        }
+
+        if(!changePasswordSaveRequest.getNewPassword().equals(changePasswordSaveRequest.getConfirmationPassword())) {
+            throw new RuntimeException("Les deux mots de passe ne sont pas identiques.");
+        }
+
+        utilisateur.setPassword(passwordEncoder.encode(changePasswordSaveRequest.getNewPassword()));
+        utilisateurRepository.save(utilisateur);
+
+        return utilisateur.getId();
+    }
+
+    private boolean verifyPassword(String requestPassword, String hashedBddPassword) {
+        return passwordEncoder.matches(requestPassword, hashedBddPassword);
     }
 
 }
