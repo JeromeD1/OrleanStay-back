@@ -16,6 +16,9 @@ public interface FeedbackService {
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     FeedbackDTO findDTOById(Long id);
 
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    List<FeedbackDTO> getByUserIdAndAppartmentId(Long userId, Long appartmentId);
+
     @Transactional(propagation = Propagation.REQUIRED)
     FeedbackDTO create(FeedbackSaveRequest feedbackSaveRequest);
 

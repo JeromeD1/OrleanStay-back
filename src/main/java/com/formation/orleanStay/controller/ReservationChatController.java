@@ -19,7 +19,7 @@ public class ReservationChatController {
         this.reservationChatService = reservationChatService;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/reservation/{id}")
     @ResponseStatus(HttpStatus.OK)
     public List<ReservationChatDTO> findByReservationId(@PathVariable Long id) {
         log.debug("Fetching chat comments with reservationId = {}", id);

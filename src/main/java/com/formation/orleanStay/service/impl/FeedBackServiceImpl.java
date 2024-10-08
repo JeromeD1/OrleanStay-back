@@ -41,6 +41,14 @@ public class FeedBackServiceImpl implements FeedbackService {
     }
 
     @Override
+    public List<FeedbackDTO> getByUserIdAndAppartmentId(Long userId, Long appartmentId) {
+        final List<Feedback> feedbacks = feedbackRepository.findFeedbackByUtilisateurIdAndAppartmentId(userId, appartmentId);
+        return feedbacks.stream()
+                .map(feedbackMapper::toFeedbackDTO)
+                .toList();
+    }
+
+    @Override
     public FeedbackDTO create(FeedbackSaveRequest feedbackSaveRequest) {
         final Feedback feedbackToSave = feedbackMapper.fromFeedbackSaveRequest(feedbackSaveRequest);
         //récupération et ajout de l'appartement

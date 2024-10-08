@@ -65,6 +65,14 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
+    public List<ReservationDTO> findbyUserId(Long userId) {
+        final List<Reservation> reservations = reservationRepository.findByUtilisateurId(userId);
+        return reservations.stream()
+                .map(reservationMapper::toReservationDTO)
+                .toList();
+    }
+
+    @Override
     public List<ReservationDTO> findReservationRequestsByOwnerId(Long ownerId) {
         final Utilisateur owner = findbyid.findUtilisateurById(ownerId);
         final List<Reservation> reservations = reservationRepository.findByAppartmentOwnerAndAcceptedFalseAndCancelledFalse(owner);

@@ -21,6 +21,9 @@ public interface ReservationService {
     List<ReservationDTO> findAllReservationRequests();
 
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    List<ReservationDTO> findbyUserId(Long userId);
+
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     List<ReservationDTO> findReservationRequestsByOwnerId(Long ownerId);
 
     @Transactional(propagation = Propagation.REQUIRED)

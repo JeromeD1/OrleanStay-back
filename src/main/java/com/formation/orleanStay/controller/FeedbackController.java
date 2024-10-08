@@ -34,6 +34,15 @@ public class FeedbackController {
         return feedbackService.findDTOById(id);
     }
 
+    @GetMapping("/utilisateur/{userId}/appartment/{appartmentId}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<FeedbackDTO> getByUserIdAndAppartmentId(@PathVariable Long userId, @PathVariable Long appartmentId) {
+        log.debug("Fetching feedback with utilisateurId = {} and appartmentId = {}", userId, appartmentId);
+        return feedbackService.getByUserIdAndAppartmentId(userId, appartmentId);
+    }
+
+
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public FeedbackDTO create(@RequestBody FeedbackSaveRequest feedbackSaveRequest) {

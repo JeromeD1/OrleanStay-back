@@ -50,6 +50,7 @@ public class RequestAutorizationConfig {
                 .requestMatchers(GET, "/appartment/all").hasRole(ADMIN)
                 .requestMatchers(GET, "/appartment/owner/**").hasAnyRole(OWNER, ADMIN)
                 .requestMatchers(GET, "/appartment/names/**").hasAnyRole(OWNER, ADMIN)
+                .requestMatchers(GET, "/appartment/{id}").authenticated()
                 .requestMatchers(GET, APPARTMENT_ENDPOINT).hasAnyRole(OWNER, ADMIN)
                 .requestMatchers(POST, APPARTMENT_ENDPOINT).hasAnyRole(OWNER, ADMIN)
                 .requestMatchers(PUT, APPARTMENT_ENDPOINT).hasAnyRole(OWNER, ADMIN)

@@ -50,6 +50,13 @@ public class ReservationController {
         return reservationService.findAllReservationRequests();
     }
 
+    @GetMapping("/user/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<ReservationDTO> findbyUserId(@PathVariable Long userId){
+        log.debug("Fetching reservations by userId = {} ", userId);
+        return reservationService.findbyUserId(userId);
+    }
+
     @GetMapping("/requests/owner/{ownerId}")
     @ResponseStatus(HttpStatus.OK)
     public List<ReservationDTO> findAllRequestsByOwnerId(@PathVariable Long ownerId){
