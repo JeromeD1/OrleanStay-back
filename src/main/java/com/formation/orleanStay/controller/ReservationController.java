@@ -83,6 +83,13 @@ public class ReservationController {
         return reservationService.update(id, reservationSaveRequest);
     }
 
+    @PutMapping("/{id}/cancelFromTraveller")
+    @ResponseStatus(HttpStatus.OK)
+    public ReservationDTO cancelFromTraveller(@PathVariable Long id, @RequestBody ReservationSaveRequest reservationSaveRequest) {
+        log.debug("Cancelling reservation of id {} with value {}", id, reservationSaveRequest);
+        return reservationService.cancelFromTraveller(id, reservationSaveRequest);
+    }
+
     @PutMapping("/{id}/askForDeposit")
     @ResponseStatus(HttpStatus.OK)
     public ReservationDTO askForDeposit(@PathVariable Long id, @RequestBody ReservationSaveRequest reservationSaveRequest) {

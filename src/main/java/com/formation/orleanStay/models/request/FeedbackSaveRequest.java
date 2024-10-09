@@ -11,6 +11,8 @@ public class FeedbackSaveRequest {
     private Long appartmentId;
     @NotNull
     private Long utilisateurId;
+    @NotNull
+    private Long reservationId;
     @NotBlank
     private String comment;
 }

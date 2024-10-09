@@ -4,6 +4,7 @@ import com.formation.orleanStay.mapper.FeedbackMapper;
 import com.formation.orleanStay.models.DTO.FeedbackDTO;
 import com.formation.orleanStay.models.entity.Appartment;
 import com.formation.orleanStay.models.entity.Feedback;
+import com.formation.orleanStay.models.entity.Reservation;
 import com.formation.orleanStay.models.entity.Utilisateur;
 import com.formation.orleanStay.models.request.FeedbackSaveRequest;
 import com.formation.orleanStay.repository.FeedbackRepository;
@@ -49,6 +50,14 @@ public class FeedBackServiceImpl implements FeedbackService {
     }
 
     @Override
+    public List<FeedbackDTO> findFeedbackByReservationId(Long reservationId) {
+            final List<Feedback> feedbacks = feedbackRepository.findFeedbackByReservationId(reservationId);
+            return feedbacks.stream()
+                    .map(feedbackMapper::toFeedbackDTO)
+                    .toList();
+    }
+
+    @Override
     public FeedbackDTO create(FeedbackSaveRequest feedbackSaveRequest) {
         final Feedback feedbackToSave = feedbackMapper.fromFeedbackSaveRequest(feedbackSaveRequest);
         //récupération et ajout de l'appartement
@@ -57,6 +66,9 @@ public class FeedBackServiceImpl implements FeedbackService {
         //récupération et ajout de l'utilisateur
         final Utilisateur utilisateur = findbyid.findUtilisateurById(feedbackSaveRequest.getUtilisateurId());
         feedbackToSave.setUtilisateur(utilisateur);
+
+        final Reservation reservation = findbyid.findReservationById(feedbackSaveRequest.getReservationId());
+        feedbackToSave.setReservation(reservation);
 
         final Feedback savedFeedback = feedbackRepository.save(feedbackToSave);
         return feedbackMapper.toFeedbackDTO(savedFeedback);

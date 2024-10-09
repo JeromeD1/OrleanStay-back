@@ -41,7 +41,12 @@ public class FeedbackController {
         return feedbackService.getByUserIdAndAppartmentId(userId, appartmentId);
     }
 
-
+    @GetMapping("/reservation/{reservationId}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<FeedbackDTO> getByReservationId(@PathVariable Long reservationId) {
+        log.debug("Fetching feedback with reservationId = {}", reservationId);
+        return feedbackService.findFeedbackByReservationId(reservationId);
+    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

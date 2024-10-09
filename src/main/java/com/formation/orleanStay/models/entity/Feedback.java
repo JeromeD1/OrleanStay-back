@@ -41,6 +41,13 @@ public class Feedback {
     @JsonProperty("utilisateurId")
     public Long getUtilisateurId() {return utilisateur == null ? null : utilisateur.getId();}
 
+    @OneToOne
+    @JoinColumn(name = "reservation_id", nullable = false)
+    private Reservation reservation;
+
+    @JsonProperty("reservationId")
+    public Long getReservationId() {return reservation == null ? null : reservation.getId();}
+
     @Column(nullable = false)
     @NotNull
     private String comment;

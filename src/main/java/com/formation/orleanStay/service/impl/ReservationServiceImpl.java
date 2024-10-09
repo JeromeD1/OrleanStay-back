@@ -111,9 +111,6 @@ public class ReservationServiceImpl implements ReservationService {
 
         //RECUPERATION OU MISE A JOUR DE TRAVELLER
         Traveller updatedTraveller = findbyid.findTravellerById(reservationSaveRequest.getTraveller().getId());
-//        entityManager.merge(updatedTraveller);
-//        entityManager.flush();
-//        entityManager.clear();
 
         //RECUPERATION DE L'appartment
         final Appartment appartmentToUpdate = findbyid.findAppartmentById(reservationSaveRequest.getAppartmentId());
@@ -131,6 +128,12 @@ public class ReservationServiceImpl implements ReservationService {
 
         //RETURN DE LA RESERVATION MODIFIEE
         return reservationMapper.toReservationDTO(savedReservation);
+    }
+
+    @Override
+    public ReservationDTO cancelFromTraveller(Long id, ReservationSaveRequest reservationSaveRequest) {
+        //TODO send mail
+        return update(id, reservationSaveRequest);
     }
 
     public ReservationDTO askForDeposit(Long id, ReservationSaveRequest reservationSaveRequest) {
