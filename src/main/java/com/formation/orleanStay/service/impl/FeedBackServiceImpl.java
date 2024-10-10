@@ -8,6 +8,7 @@ import com.formation.orleanStay.models.entity.Reservation;
 import com.formation.orleanStay.models.entity.Utilisateur;
 import com.formation.orleanStay.models.request.FeedbackSaveRequest;
 import com.formation.orleanStay.repository.FeedbackRepository;
+import com.formation.orleanStay.service.FeedbackAnswerService;
 import com.formation.orleanStay.service.FeedbackService;
 import com.formation.orleanStay.utils.Findbyid;
 import org.springframework.stereotype.Service;
@@ -17,14 +18,16 @@ import java.util.List;
 @Service
 public class FeedBackServiceImpl implements FeedbackService {
 
-    private FeedbackRepository feedbackRepository;
-    private FeedbackMapper feedbackMapper;
-    private Findbyid findbyid;
+    private final FeedbackRepository feedbackRepository;
+    private final FeedbackMapper feedbackMapper;
+    private final Findbyid findbyid;
+    private final FeedbackAnswerService feedbackAnswerService;
 
-    public FeedBackServiceImpl(FeedbackRepository feedbackRepository, FeedbackMapper feedbackMapper, Findbyid findbyid) {
+    public FeedBackServiceImpl(FeedbackRepository feedbackRepository, FeedbackMapper feedbackMapper, Findbyid findbyid, FeedbackAnswerService feedbackAnswerService) {
         this.feedbackRepository = feedbackRepository;
         this.feedbackMapper = feedbackMapper;
         this.findbyid = findbyid;
+        this.feedbackAnswerService = feedbackAnswerService;
     }
 
     @Override
@@ -92,6 +95,9 @@ public class FeedBackServiceImpl implements FeedbackService {
     @Override
     public void delete(Long id) {
         final Feedback comment = findbyid.findFeedbackById(id);
+        if(comment.getAnswer() != null) {
+            feedbackAnswerService.delete(comment.getAnswer().getId());
+        }
         feedbackRepository.delete(comment);
     }
 

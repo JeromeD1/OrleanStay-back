@@ -40,7 +40,7 @@ public class FeedbackAnswer {
     @JsonProperty("utilisateurId")
     public Long getUtilisateurId() {return utilisateur == null ? null : utilisateur.getId();}
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 2000)
     @NotNull
     private String commentAnswer;
 

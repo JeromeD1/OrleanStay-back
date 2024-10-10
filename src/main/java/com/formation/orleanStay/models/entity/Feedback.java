@@ -48,7 +48,7 @@ public class Feedback {
     @JsonProperty("reservationId")
     public Long getReservationId() {return reservation == null ? null : reservation.getId();}
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 2000)
     @NotNull
     private String comment;
 
@@ -58,7 +58,7 @@ public class Feedback {
     @Column(nullable = false)
     private LocalDateTime modificationDate;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "answer_id")
     private FeedbackAnswer answer;
 
