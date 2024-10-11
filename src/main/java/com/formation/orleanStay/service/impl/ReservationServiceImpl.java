@@ -18,6 +18,7 @@ import jakarta.persistence.PersistenceContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -157,5 +158,26 @@ public class ReservationServiceImpl implements ReservationService {
         reservationRepository.delete(reservationToDelete);
     }
 
+    @Override
+    public List<ReservationDTO> findFilteredReservationsForReservationChatAnswering(Long userId) {
+        final LocalDateTime now = LocalDateTime.now();
+        final LocalDateTime oneMonthAgo = now.minusMonths(1);
+        final List<Reservation> reservations = reservationRepository.findFilteredReservationsForReservationChatAnswering(oneMonthAgo, userId);
+
+        return reservations.stream()
+                .map(reservationMapper::toReservationDTO)
+                .toList();
+    }
+
+    @Override
+    public List<ReservationDTO> findwithCheckoutDateLaterThanOneMonthAgo() {
+        final LocalDateTime now = LocalDateTime.now();
+        final LocalDateTime oneMonthAgo = now.minusMonths(1);
+        final List<Reservation> reservations = reservationRepository.findwithCheckoutDateLaterThanOneMonthAgo(oneMonthAgo);
+
+        return reservations.stream()
+                .map(reservationMapper::toReservationDTO)
+                .toList();
+    }
 
 }

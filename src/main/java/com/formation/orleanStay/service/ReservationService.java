@@ -46,4 +46,10 @@ public interface ReservationService {
 
     @Transactional(propagation = Propagation.REQUIRED)
     void delete(Long id);
+
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    List<ReservationDTO> findFilteredReservationsForReservationChatAnswering(Long userId);
+
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    List<ReservationDTO> findwithCheckoutDateLaterThanOneMonthAgo();
 }

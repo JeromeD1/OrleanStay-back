@@ -118,6 +118,19 @@ public class ReservationController {
         reservationService.delete(id);
     }
 
+    @GetMapping("/withWaitingReservationChat/notFromUser/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<ReservationDTO> findFilteredReservationsForReservationChatAnswering(@PathVariable Long userId) {
+        log.debug("Fetching reservation with Reservation chat as last ReservationChat not from utilisateur whith id {}", userId);
+        return reservationService.findFilteredReservationsForReservationChatAnswering(userId);
+    }
+
+    @GetMapping("/withCheckoutDateLaterThanOneMonthAgo")
+    @ResponseStatus(HttpStatus.OK)
+    public List<ReservationDTO> findwithCheckoutDateLaterThanOneMonthAgo() {
+        log.debug("Fetching reservation with CheckoutDate Later Than One Month Ago");
+        return reservationService.findwithCheckoutDateLaterThanOneMonthAgo();
+    }
 
     private Boolean comparePersonalInformation(PersonalInformationSaveRequest request, PersonalInformation information){
         if (request == null || information == null) {

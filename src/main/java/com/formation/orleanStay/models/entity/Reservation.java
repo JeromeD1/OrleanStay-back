@@ -34,7 +34,6 @@ public class Reservation {
     @OneToOne(cascade = CascadeType.REMOVE, orphanRemoval = true)
     @NotNull
     @JoinColumn(name = "traveller_id", nullable = false, foreignKey = @ForeignKey(name = "fk_reservation_traveller"))
-//    @JsonIgnore
     private Traveller traveller;
 
 //    @JsonProperty("travellerId")
