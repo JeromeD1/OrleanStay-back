@@ -6,6 +6,7 @@ import com.formation.orleanStay.models.DTO.PhotoDTO;
 import com.formation.orleanStay.models.DTO.TravelInfoDTO;
 import com.formation.orleanStay.models.entity.Appartment;
 import com.formation.orleanStay.models.entity.Photo;
+import com.formation.orleanStay.models.entity.Reservation;
 import com.formation.orleanStay.models.entity.TravelInfo;
 import com.formation.orleanStay.models.request.TravelInfoListSaveRequest;
 import com.formation.orleanStay.models.request.TravelInfoSaveRequest;
@@ -16,6 +17,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 
@@ -31,6 +33,28 @@ public class TravelInfoServiceImpl implements TravelInfoService {
     @Override
     public List<TravelInfoDTO> findByAppartmentId(Long appartmentId) {
         return travelInfoRepository.findByAppartment_Id(appartmentId)
+                .stream()
+                .map(travelInfoMapper::toTravelInfoDTO)
+                .sorted(Comparator.comparing(TravelInfoDTO::getPositionOrder))
+                .toList();
+    }
+
+    @Override
+    public List<TravelInfoDTO> findByReservationAndTravellerIds(Long reservationId, Long travellerId) {
+        //récupération de la réservation
+        final Reservation reservation = findbyid.findReservationById(reservationId);
+        //verification que le traveller est le bon, sinon return null
+        //idem si la date de sortie est déjà passée
+        //idem si la reservation n'est pas acceptée
+        final LocalDateTime now = LocalDateTime.now();
+        if(!reservation.getTraveller().getId().equals(travellerId) ||
+                now.isAfter(reservation.getCheckoutDate()) ||
+                Boolean.FALSE.equals(reservation.getAccepted()) ||
+                Boolean.TRUE.equals(reservation.getCancelled())) {
+            return null;
+        }
+
+        return travelInfoRepository.findByAppartment_Id(reservation.getAppartmentId())
                 .stream()
                 .map(travelInfoMapper::toTravelInfoDTO)
                 .sorted(Comparator.comparing(TravelInfoDTO::getPositionOrder))

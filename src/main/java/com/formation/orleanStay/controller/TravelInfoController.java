@@ -25,8 +25,15 @@ public class TravelInfoController {
     @GetMapping("/appartment/{appartmentId}")
     @ResponseStatus(HttpStatus.OK)
     public List<TravelInfoDTO> findByAppartmentId(@PathVariable Long appartmentId){
-        log.debug("Fetching all travelPhoto from appartment of id {}", appartmentId);
+        log.debug("Fetching all travelInfos from appartment of id {}", appartmentId);
         return travelInfoService.findByAppartmentId(appartmentId);
+    }
+
+    @GetMapping("/reservation/{reservationId}/traveller/{travellerId}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<TravelInfoDTO> findByReservationAndTravellerIds(@PathVariable Long reservationId, @PathVariable Long travellerId) {
+        log.debug("Fetching all travelInfos from appartment of reservation of id {}", reservationId);
+        return travelInfoService.findByReservationAndTravellerIds(reservationId, travellerId);
     }
 
     @PostMapping

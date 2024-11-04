@@ -16,6 +16,9 @@ public interface TravelInfoService {
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     List<TravelInfoDTO> findByAppartmentId(Long appartmentId);
 
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    List<TravelInfoDTO> findByReservationAndTravellerIds(Long reservationId, Long travellerId);
+
     @Transactional(propagation = Propagation.REQUIRED)
     TravelInfoDTO create(TravelInfoSaveRequest travelInfoSaveRequest);
 

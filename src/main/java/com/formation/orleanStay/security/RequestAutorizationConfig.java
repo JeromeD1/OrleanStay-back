@@ -56,7 +56,8 @@ public class RequestAutorizationConfig {
                 .requestMatchers(PUT, APPARTMENT_ENDPOINT).hasAnyRole(OWNER, ADMIN)
                 .requestMatchers(DELETE, APPARTMENT_ENDPOINT).hasAnyRole(OWNER, ADMIN)
 
-                .requestMatchers(GET, TRAVEL_INFO).permitAll()
+                .requestMatchers(GET, "/travelInfo/reservation/{reservationId}/traveller/{travellerId}").permitAll()
+                .requestMatchers(GET, TRAVEL_INFO).authenticated()
                 .requestMatchers(POST, TRAVEL_INFO).hasAnyRole(OWNER, ADMIN)
                 .requestMatchers(PUT, TRAVEL_INFO).hasAnyRole(OWNER, ADMIN)
                 .requestMatchers(DELETE, TRAVEL_INFO).hasAnyRole(OWNER, ADMIN)
