@@ -1,0 +1,59 @@
+meta {
+  name: ACCEPT
+  type: http
+  seq: 9
+}
+
+put {
+  url: http://localhost:8080/reservation/18/accept
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "id": 18,
+    "appartmentId": 1,
+    "checkinDate": "2024-11-17T11:00:00",
+    "checkoutDate": "2024-11-21T11:00:00",
+    "nbAdult": 1,
+    "nbChild": 0,
+    "nbBaby": 0,
+    "reservationPrice": 250,
+    "accepted": true,
+    "cancelled": false,
+    "depositAsked": false,
+    "depositReceived": false,
+    "depositValue": 75,
+    "traveller": {
+      "id": 19,
+      "personalInformations": {
+        "id": 17,
+        "firstname": "Inconnu",
+        "lastname": "Pareil",
+        "email": "jerome.desouches@gmail.com",
+        "phone": "06 06 06 06 06",
+        "address": "Adresse inconnue",
+        "zipcode": "78000",
+        "city": "Sartrouville",
+        "country": "France"
+      },
+      "utilisateurId": 6
+    },
+    "travellerMessage": null
+  }
+}
+
+script:pre-request {
+  const cookie = bru.getVar("cookie");
+  
+  if(cookie) {
+    req.setHeader("Cookie", cookie)
+  }
+  
+  const token = bru.getVar("authorization");
+  
+  if(token) {
+    req.setHeader("authorization", token);
+  }
+}

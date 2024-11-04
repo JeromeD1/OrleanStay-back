@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 @Entity
@@ -88,6 +89,11 @@ public class Reservation {
 
     @Column(columnDefinition = "text")
     private String travellerMessage;
+
+    public Long getNumberOfNights() {
+        return Duration.between(checkinDate, checkoutDate).toDays();
+    }
+
 
     @PrePersist
     void prePersist() {
