@@ -18,6 +18,7 @@ import jakarta.persistence.PersistenceContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -65,6 +66,14 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
+    public List<ReservationDTO> findbyUserId(Long userId) {
+        final List<Reservation> reservations = reservationRepository.findByUtilisateurId(userId);
+        return reservations.stream()
+                .map(reservationMapper::toReservationDTO)
+                .toList();
+    }
+
+    @Override
     public List<ReservationDTO> findReservationRequestsByOwnerId(Long ownerId) {
         final Utilisateur owner = findbyid.findUtilisateurById(ownerId);
         final List<Reservation> reservations = reservationRepository.findByAppartmentOwnerAndAcceptedFalseAndCancelledFalse(owner);
@@ -103,9 +112,6 @@ public class ReservationServiceImpl implements ReservationService {
 
         //RECUPERATION OU MISE A JOUR DE TRAVELLER
         Traveller updatedTraveller = findbyid.findTravellerById(reservationSaveRequest.getTraveller().getId());
-//        entityManager.merge(updatedTraveller);
-//        entityManager.flush();
-//        entityManager.clear();
 
         //RECUPERATION DE L'appartment
         final Appartment appartmentToUpdate = findbyid.findAppartmentById(reservationSaveRequest.getAppartmentId());
@@ -123,6 +129,12 @@ public class ReservationServiceImpl implements ReservationService {
 
         //RETURN DE LA RESERVATION MODIFIEE
         return reservationMapper.toReservationDTO(savedReservation);
+    }
+
+    @Override
+    public ReservationDTO cancelFromTraveller(Long id, ReservationSaveRequest reservationSaveRequest) {
+        //TODO send mail
+        return update(id, reservationSaveRequest);
     }
 
     public ReservationDTO askForDeposit(Long id, ReservationSaveRequest reservationSaveRequest) {
@@ -146,5 +158,26 @@ public class ReservationServiceImpl implements ReservationService {
         reservationRepository.delete(reservationToDelete);
     }
 
+    @Override
+    public List<ReservationDTO> findFilteredReservationsForReservationChatAnswering(Long userId) {
+        final LocalDateTime now = LocalDateTime.now();
+        final LocalDateTime oneMonthAgo = now.minusMonths(1);
+        final List<Reservation> reservations = reservationRepository.findFilteredReservationsForReservationChatAnswering(oneMonthAgo, userId);
+
+        return reservations.stream()
+                .map(reservationMapper::toReservationDTO)
+                .toList();
+    }
+
+    @Override
+    public List<ReservationDTO> findwithCheckoutDateLaterThanOneMonthAgo() {
+        final LocalDateTime now = LocalDateTime.now();
+        final LocalDateTime oneMonthAgo = now.minusMonths(1);
+        final List<Reservation> reservations = reservationRepository.findwithCheckoutDateLaterThanOneMonthAgo(oneMonthAgo);
+
+        return reservations.stream()
+                .map(reservationMapper::toReservationDTO)
+                .toList();
+    }
 
 }

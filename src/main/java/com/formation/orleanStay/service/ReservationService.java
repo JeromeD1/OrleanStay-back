@@ -21,6 +21,9 @@ public interface ReservationService {
     List<ReservationDTO> findAllReservationRequests();
 
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    List<ReservationDTO> findbyUserId(Long userId);
+
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     List<ReservationDTO> findReservationRequestsByOwnerId(Long ownerId);
 
     @Transactional(propagation = Propagation.REQUIRED)
@@ -28,6 +31,9 @@ public interface ReservationService {
 
     @Transactional(propagation = Propagation.REQUIRED)
     ReservationDTO update(Long id, ReservationSaveRequest reservationSaveRequest);
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    ReservationDTO cancelFromTraveller(Long id, ReservationSaveRequest reservationSaveRequest);
 
     @Transactional(propagation = Propagation.REQUIRED)
     ReservationDTO askForDeposit(Long id, ReservationSaveRequest reservationSaveRequest);
@@ -40,4 +46,10 @@ public interface ReservationService {
 
     @Transactional(propagation = Propagation.REQUIRED)
     void delete(Long id);
+
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    List<ReservationDTO> findFilteredReservationsForReservationChatAnswering(Long userId);
+
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    List<ReservationDTO> findwithCheckoutDateLaterThanOneMonthAgo();
 }

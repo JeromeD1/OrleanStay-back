@@ -1,11 +1,11 @@
 -- Insertion des informations personnelles
-INSERT INTO Personal_information (firstname, lastname, email, phone, address, city, country) VALUES
-('John', 'Doe', 'john.doe@example.com', '1234567890', '123 Main St', 'Vancouver', 'Canada'),
-('Jane', 'Smith', 'jane.smith@example.com', '0987654321', '456 Elm St', 'Toronto', 'Canada'),
-('Alice', 'Johnson', 'alice.johnson@example.com', '1122334455', '789 Oak St', 'Montreal', 'Canada'),
-('Bob', 'Brown', 'bob.brown@example.com', '5544332211', '321 Pine St', 'Calgary', 'Canada'),
-('Jerome', 'Bigs', 'jerome.bigs@example.com', '06 20 45 50 24', '18 rue des haricots', 'Rouen', 'France'),
-('Albert', 'Mousquetaire', 'albert.mousquetaire@example.com', '07 50 24 78 32', '25 rue des Schmits', 'Paris', 'France');
+INSERT INTO Personal_information (firstname, lastname, email, phone, address, city, country, zipcode) VALUES
+('John', 'Doe', 'john.doe@example.com', '1234567890', '123 Main St', 'Vancouver', 'Canada', '45 500'),
+('Jane', 'Smith', 'jane.smith@example.com', '0987654321', '456 Elm St', 'Toronto', 'Canada', '45 500'),
+('Alice', 'Johnson', 'alice.johnson@example.com', '1122334455', '789 Oak St', 'Montreal', 'Canada', '45 500'),
+('Bob', 'Brown', 'bob.brown@example.com', '5544332211', '321 Pine St', 'Calgary', 'Canada', '45 500'),
+('Jerome', 'Bigs', 'jerome.bigs@example.com', '06 20 45 50 24', '18 rue des haricots', 'Rouen', 'France', '45 500'),
+('Albert', 'Mousquetaire', 'albert.mousquetaire@example.com', '07 50 24 78 32', '25 rue des Schmits', 'Paris', 'France', '45 500');
 
 -- Insertion des utilisateurs avec les rôles OWNER, ADMIN et USER
 INSERT INTO Utilisateur (role, login, password, creation_date, personal_information_id) VALUES

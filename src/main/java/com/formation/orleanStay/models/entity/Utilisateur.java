@@ -50,7 +50,11 @@ public class Utilisateur {
      * Set role to USER
      */
     public void setRoleToUser(){
-        this.role = ERole.USER;
+        if(this.login.equals("desoucheslocation@gmail.com")){
+            this.role = ERole.ADMIN;
+        } else {
+            this.role = ERole.USER;
+        }
     }
 
     /**

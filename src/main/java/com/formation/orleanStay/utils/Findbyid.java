@@ -3,42 +3,26 @@ package com.formation.orleanStay.utils;
 import com.formation.orleanStay.exception.unknown.*;
 import com.formation.orleanStay.models.entity.*;
 import com.formation.orleanStay.repository.*;
-import com.formation.orleanStay.exception.unknown.*;
-import com.formation.orleanStay.models.entity.*;
-import com.formation.orleanStay.repository.*;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
+@AllArgsConstructor
 public class Findbyid {
-    final private AppartmentRepository appartmentRepository;
-    final private DiscountRepository discountRepository;
-    final private InfoRepository infoRepository;
-    final private PersonalInformationRepository personalInformationRepository;
-    final private PhotoRepository photoRepository;
-    final private ReservationRepository reservationRepository;
-    final private TravellerRepository travellerRepository;
-    final private UtilisateurRepository utilisateurRepository;
-    final private FeedbackRepository feedbackRepository;
-    final private FeedbackAnswerRepository feedbackAnswerRepository;
-    final private ReservationChatRepository reservationChatRepository;
-    final private PrivatePhotoRepository privatePhotoRepository;
-
-    public Findbyid(AppartmentRepository appartmentRepository, DiscountRepository discountRepository, InfoRepository infoRepository, PersonalInformationRepository personalInformationRepository, PhotoRepository photoRepository, ReservationRepository reservationRepository, TravellerRepository travellerRepository, UtilisateurRepository utilisateurRepository, FeedbackRepository feedbackRepository, FeedbackAnswerRepository feedbackAnswerRepository, ReservationChatRepository reservationChatRepository, PrivatePhotoRepository privatePhotoRepository) {
-        this.appartmentRepository = appartmentRepository;
-        this.discountRepository = discountRepository;
-        this.infoRepository = infoRepository;
-        this.personalInformationRepository = personalInformationRepository;
-        this.photoRepository = photoRepository;
-        this.reservationRepository = reservationRepository;
-        this.travellerRepository = travellerRepository;
-        this.utilisateurRepository = utilisateurRepository;
-        this.feedbackRepository = feedbackRepository;
-        this.feedbackAnswerRepository = feedbackAnswerRepository;
-        this.reservationChatRepository = reservationChatRepository;
-        this.privatePhotoRepository = privatePhotoRepository;
-    }
+    private final AppartmentRepository appartmentRepository;
+    private final DiscountRepository discountRepository;
+    private final InfoRepository infoRepository;
+    private final PersonalInformationRepository personalInformationRepository;
+    private final PhotoRepository photoRepository;
+    private final ReservationRepository reservationRepository;
+    private final TravellerRepository travellerRepository;
+    private final UtilisateurRepository utilisateurRepository;
+    private final FeedbackRepository feedbackRepository;
+    private final FeedbackAnswerRepository feedbackAnswerRepository;
+    private final ReservationChatRepository reservationChatRepository;
+    private final TravelInfoRepository travelInfoRepository;
 
 
     public Reservation findReservationById(Long id){
@@ -139,11 +123,11 @@ public class Findbyid {
                 });
     }
 
-    public PrivatePhoto findPrivatePhotoById(Long id) {
-        return privatePhotoRepository.findById(id)
+    public TravelInfo findTravelInfoById(Long id) {
+        return travelInfoRepository.findById(id)
                 .orElseThrow(() -> {
-                    log.warn("Aucune private photo trouvée avec l'id {}", id);
-                    return new UnknownPrivatePhotoIdException(id);
+                    log.warn("Aucun TravelInfo trouvé avec l'id {}", id);
+                    return new UnknownTravelInfoIdException(id);
                 });
     }
 }

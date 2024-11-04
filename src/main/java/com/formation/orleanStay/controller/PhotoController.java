@@ -71,8 +71,6 @@ public class PhotoController {
     public ResponseEntity<List<PhotoDTO>> delete(@PathVariable Long id, @PathVariable String imgId) throws IOException {
         log.debug("Deleting photo with id {}", id);
         List<PhotoDTO> photos = photoService.delete(id, imgId);
-        System.out.println("photos in controller :" + photos);
-        System.out.println( "photos.size() " + photos.size());
         return ResponseEntity.ok(photos);
     }
 }

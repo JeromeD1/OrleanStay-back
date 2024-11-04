@@ -9,6 +9,7 @@ public class FeedbackDTO {
     private Long id;
     private Long appartmentId;
     private Long utilisateurId;
+    private Long reservationId;
     private String comment;
     private FeedbackAnswerDTO answer;
     private LocalDateTime creationDate;

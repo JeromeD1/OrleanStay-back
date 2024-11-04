@@ -50,6 +50,13 @@ public class ReservationController {
         return reservationService.findAllReservationRequests();
     }
 
+    @GetMapping("/user/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<ReservationDTO> findbyUserId(@PathVariable Long userId){
+        log.debug("Fetching reservations by userId = {} ", userId);
+        return reservationService.findbyUserId(userId);
+    }
+
     @GetMapping("/requests/owner/{ownerId}")
     @ResponseStatus(HttpStatus.OK)
     public List<ReservationDTO> findAllRequestsByOwnerId(@PathVariable Long ownerId){
@@ -74,6 +81,13 @@ public class ReservationController {
             travellerService.update(reservationSaveRequest.getTraveller().getId(),reservationSaveRequest.getTraveller());
         }
         return reservationService.update(id, reservationSaveRequest);
+    }
+
+    @PutMapping("/{id}/cancelFromTraveller")
+    @ResponseStatus(HttpStatus.OK)
+    public ReservationDTO cancelFromTraveller(@PathVariable Long id, @RequestBody ReservationSaveRequest reservationSaveRequest) {
+        log.debug("Cancelling reservation of id {} with value {}", id, reservationSaveRequest);
+        return reservationService.cancelFromTraveller(id, reservationSaveRequest);
     }
 
     @PutMapping("/{id}/askForDeposit")
@@ -104,6 +118,19 @@ public class ReservationController {
         reservationService.delete(id);
     }
 
+    @GetMapping("/withWaitingReservationChat/notFromUser/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<ReservationDTO> findFilteredReservationsForReservationChatAnswering(@PathVariable Long userId) {
+        log.debug("Fetching reservation with Reservation chat as last ReservationChat not from utilisateur whith id {}", userId);
+        return reservationService.findFilteredReservationsForReservationChatAnswering(userId);
+    }
+
+    @GetMapping("/withCheckoutDateLaterThanOneMonthAgo")
+    @ResponseStatus(HttpStatus.OK)
+    public List<ReservationDTO> findwithCheckoutDateLaterThanOneMonthAgo() {
+        log.debug("Fetching reservation with CheckoutDate Later Than One Month Ago");
+        return reservationService.findwithCheckoutDateLaterThanOneMonthAgo();
+    }
 
     private Boolean comparePersonalInformation(PersonalInformationSaveRequest request, PersonalInformation information){
         if (request == null || information == null) {

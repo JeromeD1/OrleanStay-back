@@ -25,7 +25,7 @@ public class RequestAutorizationConfig {
     private static final String INFO_ENDPOINT = "/info/**";
     private static final String PERSONAL_INFORMATION_ENDPOINT = "/personalInformation/**";
     private static final String PHOTO_ENDPOINT = "/photo/**";
-    private static final String PRIVATE_PHOTO_ENDPOINT = "/privatePhoto/**";
+    private static final String TRAVEL_INFO = "/travelInfo/**";
     private static final String RESERVATION_ENDPOINT = "/reservation/**";
     private static final String RESERVATION_CHAT_ENDPOINT = "/reservationChat/**";
     private static final String TRAVELLER_ENDPOINT = "/traveller/**";
@@ -50,15 +50,17 @@ public class RequestAutorizationConfig {
                 .requestMatchers(GET, "/appartment/all").hasRole(ADMIN)
                 .requestMatchers(GET, "/appartment/owner/**").hasAnyRole(OWNER, ADMIN)
                 .requestMatchers(GET, "/appartment/names/**").hasAnyRole(OWNER, ADMIN)
+                .requestMatchers(GET, "/appartment/{id}").authenticated()
                 .requestMatchers(GET, APPARTMENT_ENDPOINT).hasAnyRole(OWNER, ADMIN)
                 .requestMatchers(POST, APPARTMENT_ENDPOINT).hasAnyRole(OWNER, ADMIN)
                 .requestMatchers(PUT, APPARTMENT_ENDPOINT).hasAnyRole(OWNER, ADMIN)
                 .requestMatchers(DELETE, APPARTMENT_ENDPOINT).hasAnyRole(OWNER, ADMIN)
 
-                .requestMatchers(GET, PRIVATE_PHOTO_ENDPOINT).authenticated()
-                .requestMatchers(POST, PRIVATE_PHOTO_ENDPOINT).hasAnyRole(OWNER, ADMIN)
-                .requestMatchers(PUT, PRIVATE_PHOTO_ENDPOINT).hasAnyRole(OWNER, ADMIN)
-                .requestMatchers(DELETE, PRIVATE_PHOTO_ENDPOINT).hasAnyRole(OWNER, ADMIN)
+                .requestMatchers(GET, "/travelInfo/reservation/{reservationId}/traveller/{travellerId}").permitAll()
+                .requestMatchers(GET, TRAVEL_INFO).authenticated()
+                .requestMatchers(POST, TRAVEL_INFO).hasAnyRole(OWNER, ADMIN)
+                .requestMatchers(PUT, TRAVEL_INFO).hasAnyRole(OWNER, ADMIN)
+                .requestMatchers(DELETE, TRAVEL_INFO).hasAnyRole(OWNER, ADMIN)
 
                 .requestMatchers(GET, DISCOUNT_ENDPOINT).authenticated()
                 .requestMatchers(POST, DISCOUNT_ENDPOINT).hasAnyRole(OWNER, ADMIN)
@@ -109,6 +111,8 @@ public class RequestAutorizationConfig {
                 .requestMatchers(PUT, TRAVELLER_ENDPOINT).hasAnyRole(ADMIN)
                 .requestMatchers(DELETE, TRAVELLER_ENDPOINT).hasAnyRole(ADMIN)
 
+                .requestMatchers(PUT, "/utilisateurs/{id}/password").authenticated()
+                .requestMatchers(PUT, "/utilisateurs/{id}").authenticated()
                 .requestMatchers(GET, UTILISATEUR_ENDPOINT).hasAnyRole(ADMIN)
                 .requestMatchers(POST, UTILISATEUR_ENDPOINT).hasAnyRole(ADMIN)
                 .requestMatchers(PUT, UTILISATEUR_ENDPOINT).hasAnyRole(ADMIN)

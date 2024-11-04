@@ -1,18 +1,19 @@
 package com.formation.orleanStay.models.request;
 
+import com.formation.orleanStay.models.enumeration.ETravelInfoContentType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class FeedbackSaveRequest {
+public class TravelInfoSaveRequest {
     private Long id;
     @NotNull
     private Long appartmentId;
-    @NotNull
-    private Long utilisateurId;
-    @NotNull
-    private Long reservationId;
     @NotBlank
-    private String comment;
+    private String content;
+    @NotBlank
+    private ETravelInfoContentType contentType;
+    @NotNull
+    private Integer positionOrder;
 }
