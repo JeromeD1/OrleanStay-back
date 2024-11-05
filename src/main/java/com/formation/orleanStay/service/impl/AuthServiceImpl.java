@@ -1,16 +1,21 @@
 package com.formation.orleanStay.service.impl;
 
+import com.formation.orleanStay.mailjet.EmailService;
 import com.formation.orleanStay.mapper.PersonalInformationMapper;
 import com.formation.orleanStay.mapper.UtilisateurMapper;
 import com.formation.orleanStay.models.DTO.UtilisateurDTO;
 import com.formation.orleanStay.models.entity.PersonalInformation;
+import com.formation.orleanStay.models.entity.RecoveryToken;
 import com.formation.orleanStay.models.entity.Utilisateur;
 import com.formation.orleanStay.models.payload.JwtResponse;
 import com.formation.orleanStay.models.request.LoginRequest;
+import com.formation.orleanStay.models.request.RecoveryTokenRequest;
+import com.formation.orleanStay.models.request.ReinitialisationPasswordSaveRequest;
 import com.formation.orleanStay.models.request.SignupSaveRequest;
 import com.formation.orleanStay.repository.PersonalInformationRepository;
 import com.formation.orleanStay.repository.UtilisateurRepository;
 import com.formation.orleanStay.service.AuthService;
+import com.formation.orleanStay.service.RecoveryTokenService;
 import com.formation.orleanStay.utils.Findbyid;
 import com.formation.orleanStay.utils.JwtUtils;
 import jakarta.servlet.http.Cookie;
@@ -20,6 +25,10 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Value;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 @AllArgsConstructor
@@ -32,6 +41,8 @@ public class AuthServiceImpl implements AuthService {
     private final Findbyid findbyid;
     private final BCryptPasswordEncoder passwordEncoder;
     private final JwtUtils jwtUtils;
+    private final EmailService emailService;
+    private final RecoveryTokenService recoveryTokenService;
 
 
     @Override
@@ -81,6 +92,30 @@ public class AuthServiceImpl implements AuthService {
         //suppression de l'utilisateur dans le serveur
         SecurityContextHolder.clearContext();
 
+    }
+
+    @Override
+    public boolean askForReinitializingPassword(String email) {
+        //Rechercher l'utilisateur par email = login
+        Utilisateur utilisateur = findbyid.findUtilisateurByLogin(email);
+        if(utilisateur == null) {return false;}
+
+        final String token = jwtUtils.generateReinitialisationPasswordToken(email);
+        //Sauvegarde d'un objet RecoveryToken
+        RecoveryTokenRequest recoveryTokenRequest = new RecoveryTokenRequest(token, utilisateur);
+        recoveryTokenService.create(recoveryTokenRequest);
+
+        Map<String, String> variables = emailService.makeEmailReinitialisationPasswordData(token);
+        String recipientEmail = utilisateur.getLogin();
+        String recipientName = utilisateur.getPersonalInformations().getLastname();
+        emailService.sendEmail(recipientEmail,recipientName,"Réinitialisation de votre mot de passe",variables);
+        return true;
+    }
+
+    @Override
+    public  boolean reinitialisePassword(ReinitialisationPasswordSaveRequest request) {
+        //TODO
+        return true;
     }
 
     private boolean verifyPassword(String requestPassword, String hashedBddPassword) {

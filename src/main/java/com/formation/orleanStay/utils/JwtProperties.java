@@ -12,5 +12,7 @@ public class JwtProperties {
 
     private int expirationMs;
 
+    private int expirationNewPasswordTokenMs;
+
 //    private int refreshExpirationMs;
 }

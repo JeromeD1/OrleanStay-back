@@ -62,4 +62,10 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseBody);
         }
     }
+
+    @PostMapping("/askForReinitializingPassword")
+    @ResponseStatus(HttpStatus.OK)
+    public boolean askForReinitializingPassword(@RequestBody String email){
+        return authService.askForReinitializingPassword(email);
+    }
 }
