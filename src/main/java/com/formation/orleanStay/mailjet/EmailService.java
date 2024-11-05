@@ -75,11 +75,14 @@ public class EmailService {
         Map<String, String> variables = new HashMap<>();
         variables.put("appartment", reservation.getAppartment().getDescription());
         variables.put("address", reservation.getAppartment().getAddress() + ", " + reservation.getAppartment().getZipcode() + " " + reservation.getAppartment().getCity());
-        variables.put("checkinDate", reservation.getCheckinDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-        variables.put("checkoutDate", reservation.getCheckoutDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        variables.put("checkinDate", reservation.getFormatedCheckinDate());
+        variables.put("checkoutDate", reservation.getFormatedCheckoutDate());
         variables.put("nbAdult", String.valueOf(reservation.getNbAdult()));
         variables.put("nbChild", String.valueOf(reservation.getNbChild()));
         variables.put("nbBaby", String.valueOf(reservation.getNbBaby()));
+        variables.put("nbNights", reservation.getNumberOfNights().toString());
+        variables.put("reservationPrice", reservation.getReservationPrice() + " €");
+        variables.put("depositValue", reservation.getDepositValue().toString());
         variables.put("ownerPhone", reservation.getAppartment().getOwner().getPersonalInformations().getPhone());
         variables.put("lienInfoResa", lienDuSite + "/infoReservation/" + reservation.getId() + "/" + reservation.getTraveller().getId());
         variables.put("lienDuSite", lienDuSite);
@@ -95,8 +98,8 @@ public class EmailService {
             variables.put("phraseAccroche", "Votre demande de réservation de logement a bien été transmise.");
         }
         variables.put("appartment", reservation.getAppartment().getDescription());
-        variables.put("checkinDate", reservation.getCheckinDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-        variables.put("checkoutDate", reservation.getCheckoutDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        variables.put("checkinDate", reservation.getFormatedCheckinDate());
+        variables.put("checkoutDate", reservation.getFormatedCheckoutDate());
         variables.put("nbAdult", String.valueOf(reservation.getNbAdult()));
         variables.put("nbChild", String.valueOf(reservation.getNbChild()));
         variables.put("nbBaby", String.valueOf(reservation.getNbBaby()));
@@ -108,6 +111,43 @@ public class EmailService {
         variables.put("email", reservation.getTraveller().getPersonalInformations().getEmail());
         variables.put("phone", reservation.getTraveller().getPersonalInformations().getPhone());
         variables.put("travellerMessage", reservation.getTravellerMessage());
+        variables.put("lienDuSite", lienDuSite);
+
+        return variables;
+    }
+
+    public Map<String, String> makeEmailResaAnnuleeData(Reservation reservation, boolean isForOwner) {
+        Map<String, String> variables = new HashMap<>();
+        variables.put("appartment", reservation.getAppartment().getDescription());
+        variables.put("checkinDate", reservation.getFormatedCheckinDate());
+        variables.put("checkoutDate", reservation.getFormatedCheckoutDate());
+        variables.put("lienDuSite", lienDuSite);
+
+        if(Boolean.TRUE.equals(reservation.getDepositReceived()) && reservation.getDepositValue() > 0) {
+            if(isForOwner) {
+                variables.put("textArrhes", "Le client a déjà payé " + reservation.getDepositValue() + " € d'arrhes. Merci de vérifier si un remboursement s'impose et de rembourser le client le cas échéant.");
+            } else {
+                variables.put("textArrhes", "Les arrhes versés de " + reservation.getDepositValue() + " € vous seront remboursés sous condition du respect du délai d'annulation (48h avant le début du séjour).");
+            }
+        }
+
+        return variables;
+    }
+
+    public Map<String, String> makeEmailDemandeArrhesData(Reservation reservation) {
+        Map<String, String> variables = new HashMap<>();
+        variables.put("appartment", reservation.getAppartment().getDescription());
+        variables.put("address", reservation.getAppartment().getAddress() + ", " + reservation.getAppartment().getZipcode() + " " + reservation.getAppartment().getCity());
+        variables.put("checkinDate", reservation.getFormatedCheckinDate());
+        variables.put("checkoutDate", reservation.getFormatedCheckoutDate());
+        variables.put("nbAdult", String.valueOf(reservation.getNbAdult()));
+        variables.put("nbChild", String.valueOf(reservation.getNbChild()));
+        variables.put("nbBaby", String.valueOf(reservation.getNbBaby()));
+        variables.put("nbNights", reservation.getNumberOfNights().toString());
+        variables.put("reservationPrice", reservation.getReservationPrice() + " €");
+        variables.put("depositValue", reservation.getDepositValue().toString());
+        variables.put("phoneOwner", reservation.getAppartment().getOwner().getPersonalInformations().getPhone());
+        variables.put("emailOwner", reservation.getAppartment().getOwner().getPersonalInformations().getEmail());
         variables.put("lienDuSite", lienDuSite);
 
         return variables;
