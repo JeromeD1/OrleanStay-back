@@ -1,5 +1,6 @@
 package com.formation.orleanStay.service.impl;
 
+import com.formation.orleanStay.mailjet.EmailService;
 import com.formation.orleanStay.mapper.ReservationMapper;
 import com.formation.orleanStay.models.DTO.ReservationDTO;
 import com.formation.orleanStay.models.entity.*;
@@ -16,30 +17,48 @@ import com.formation.orleanStay.utils.Findbyid;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Slf4j
 public class ReservationServiceImpl implements ReservationService {
 
-    final private ReservationRepository reservationRepository;
-    final private ReservationMapper reservationMapper;
-    final private TravellerService travellerService;
-    final private Findbyid findbyid;
-    final private PersonalInformationService personalInformationService;
+    private final ReservationRepository reservationRepository;
+    private final ReservationMapper reservationMapper;
+    private final TravellerService travellerService;
+    private final Findbyid findbyid;
+    private final EmailService emailService;
 
     @PersistenceContext
     private EntityManager entityManager;
 
-    public ReservationServiceImpl(ReservationRepository reservationRepository, ReservationMapper reservationMapper, TravellerService travellerService, Findbyid findbyid, PersonalInformationService personalInformationService) {
+    @Value("${mailjet.resa.accepte.template.id}")
+    private String templateResaAccepteId;
+
+    @Value("${mailjet.demande.resa.template.id}")
+    private String templateDemandeResaId;
+
+    @Value("${mailjet.resa.refusee.template.id}")
+    private String templateResaRefuseeId;
+
+    @Value("${mailjet.resa.annulee.template.id}")
+    private String templateResaAnnuleeId;
+
+    @Value("${mailjet.demande.arrhes.template.id}")
+    private String templateDemandeArrhesId;
+
+    public ReservationServiceImpl(ReservationRepository reservationRepository, ReservationMapper reservationMapper, TravellerService travellerService, Findbyid findbyid, EmailService emailService) {
         this.reservationRepository = reservationRepository;
         this.reservationMapper = reservationMapper;
         this.travellerService = travellerService;
         this.findbyid = findbyid;
-        this.personalInformationService = personalInformationService;
+        this.emailService = emailService;
     }
 
 
@@ -104,6 +123,21 @@ public class ReservationServiceImpl implements ReservationService {
         //Enregistrement du nouveau traveller en BDD et conversion en DTO à retourner
         final Reservation savedReservation = reservationRepository.save(reservationToSave);
 
+        if(Boolean.FALSE.equals(savedReservation.getAccepted())){
+            final String recipientEmail1 = savedReservation.getTraveller().getPersonalInformations().getEmail();
+            final String recipientName1 = savedReservation.getTraveller().getPersonalInformations().getFirstname() + " " + savedReservation.getTraveller().getPersonalInformations().getLastname();
+            final String subject1 = "Votre demande de reservation du " + savedReservation.getFormatedCheckinDate() + " au " + savedReservation.getFormatedCheckoutDate();
+            final Map<String, String> variables1 = emailService.makeEmailDemandeResaData(savedReservation, false);
+            emailService.sendEmail(recipientEmail1, recipientName1, subject1, templateDemandeResaId, variables1);
+
+            final String recipientEmail2 = savedReservation.getAppartment().getOwner().getPersonalInformations().getEmail();
+            final String recipientName2 = savedReservation.getAppartment().getOwner().getPersonalInformations().getFirstname();
+            final String subject2 = "Nouvelle demande : " + savedReservation.getAppartment().getName() + " du " + savedReservation.getFormatedCheckinDate() + " au " + savedReservation.getFormatedCheckoutDate();
+            final Map<String, String> variables2 = emailService.makeEmailDemandeResaData(savedReservation, true);
+            emailService.sendEmail(recipientEmail2, recipientName2, subject2, templateDemandeResaId, variables2);
+
+        }
+
         return reservationMapper.toReservationDTO(savedReservation);
     }
 
@@ -133,23 +167,124 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public ReservationDTO cancelFromTraveller(Long id, ReservationSaveRequest reservationSaveRequest) {
-        //TODO send mail
-        return update(id, reservationSaveRequest);
+        //RECUPERATION OU MISE A JOUR DE TRAVELLER
+        Traveller updatedTraveller = findbyid.findTravellerById(reservationSaveRequest.getTraveller().getId());
+
+        //RECUPERATION DE L'appartment
+        final Appartment appartmentToUpdate = findbyid.findAppartmentById(reservationSaveRequest.getAppartmentId());
+
+        //RECUPERATION DE LA RESERVATION
+        final Reservation reservationToUpdate = findbyid.findReservationById(id);
+        //UPDATE DE LA RESERVATION
+        //il faut mettre à jour l'id de traveller.personalInformation car si elle a changé lors de la MAJ de traveller, ça bug autrement
+        reservationSaveRequest.getTraveller().getPersonalInformations().setId(updatedTraveller.getPersonalInformations().getId());
+        reservationMapper.overrideFromReservationSaveRequest(reservationSaveRequest, reservationToUpdate);
+        reservationToUpdate.setTraveller(updatedTraveller);
+        reservationToUpdate.setAppartment(appartmentToUpdate);
+        //SAUVEGARDE DE LA RESERVATION
+        final Reservation savedReservation = reservationRepository.save(reservationToUpdate);
+
+        //envoi mail
+        final String recipientEmail1 = savedReservation.getTraveller().getPersonalInformations().getEmail();
+        final String recipientName1 = savedReservation.getTraveller().getPersonalInformations().getFirstname() + " " + savedReservation.getTraveller().getPersonalInformations().getLastname();
+        final String subject1 = "Réservation annulée du " + savedReservation.getFormatedCheckinDate() + " au " + savedReservation.getFormatedCheckoutDate();
+        final Map<String, String> variables1 = emailService.makeEmailResaAnnuleeData(savedReservation, false);
+        emailService.sendEmail(recipientEmail1, recipientName1, subject1, templateResaAnnuleeId, variables1);
+
+        final String recipientEmail2 = savedReservation.getAppartment().getOwner().getPersonalInformations().getEmail();
+        final String recipientName2 = savedReservation.getAppartment().getOwner().getPersonalInformations().getFirstname();
+        final String subject2 = "Réservation annulée : " + savedReservation.getAppartment().getName() + " du " + savedReservation.getFormatedCheckinDate() + " au " + savedReservation.getFormatedCheckoutDate();
+        final Map<String, String> variables2 = emailService.makeEmailResaAnnuleeData(savedReservation, true);
+        emailService.sendEmail(recipientEmail2, recipientName2, subject2, templateResaAnnuleeId, variables2);
+
+
+        //RETURN DE LA RESERVATION MODIFIEE
+        return reservationMapper.toReservationDTO(savedReservation);
     }
 
     public ReservationDTO askForDeposit(Long id, ReservationSaveRequest reservationSaveRequest) {
-        //TODO send Email
-        return update(id, reservationSaveRequest);
+        //RECUPERATION OU MISE A JOUR DE TRAVELLER
+        Traveller updatedTraveller = findbyid.findTravellerById(reservationSaveRequest.getTraveller().getId());
+
+        //RECUPERATION DE L'appartment
+        final Appartment appartmentToUpdate = findbyid.findAppartmentById(reservationSaveRequest.getAppartmentId());
+
+        //RECUPERATION DE LA RESERVATION
+        final Reservation reservationToUpdate = findbyid.findReservationById(id);
+        //UPDATE DE LA RESERVATION
+        //il faut mettre à jour l'id de traveller.personalInformation car si elle a changé lors de la MAJ de traveller, ça bug autrement
+        reservationSaveRequest.getTraveller().getPersonalInformations().setId(updatedTraveller.getPersonalInformations().getId());
+        reservationMapper.overrideFromReservationSaveRequest(reservationSaveRequest, reservationToUpdate);
+        reservationToUpdate.setTraveller(updatedTraveller);
+        reservationToUpdate.setAppartment(appartmentToUpdate);
+        //SAUVEGARDE DE LA RESERVATION
+        final Reservation savedReservation = reservationRepository.save(reservationToUpdate);
+
+        //send Email
+        final String recipientEmail = savedReservation.getTraveller().getPersonalInformations().getEmail();
+        final String recipientName = savedReservation.getTraveller().getPersonalInformations().getFirstname() + " " + savedReservation.getTraveller().getPersonalInformations().getLastname();
+        final String subject = "Payez les arrhes pour valider votre réservation du " + savedReservation.getFormatedCheckinDate() + " au " + savedReservation.getFormatedCheckoutDate();
+        final Map<String, String> variables = emailService.makeEmailDemandeArrhesData(savedReservation);
+        emailService.sendEmail(recipientEmail, recipientName, subject, templateDemandeArrhesId, variables);
+        //RETURN DE LA RESERVATION MODIFIEE
+        return reservationMapper.toReservationDTO(savedReservation);
     }
 
     public ReservationDTO rejectReservation(Long id, ReservationSaveRequest reservationSaveRequest) {
-        //TODO send Email
-        return update(id, reservationSaveRequest);
+        //RECUPERATION OU MISE A JOUR DE TRAVELLER
+        Traveller updatedTraveller = findbyid.findTravellerById(reservationSaveRequest.getTraveller().getId());
+
+        //RECUPERATION DE L'appartment
+        final Appartment appartmentToUpdate = findbyid.findAppartmentById(reservationSaveRequest.getAppartmentId());
+
+        //RECUPERATION DE LA RESERVATION
+        final Reservation reservationToUpdate = findbyid.findReservationById(id);
+        //UPDATE DE LA RESERVATION
+        //il faut mettre à jour l'id de traveller.personalInformation car si elle a changé lors de la MAJ de traveller, ça bug autrement
+        reservationSaveRequest.getTraveller().getPersonalInformations().setId(updatedTraveller.getPersonalInformations().getId());
+        reservationMapper.overrideFromReservationSaveRequest(reservationSaveRequest, reservationToUpdate);
+        reservationToUpdate.setTraveller(updatedTraveller);
+        reservationToUpdate.setAppartment(appartmentToUpdate);
+        //SAUVEGARDE DE LA RESERVATION
+        final Reservation savedReservation = reservationRepository.save(reservationToUpdate);
+
+        //send Email
+        final String recipientEmail = savedReservation.getTraveller().getPersonalInformations().getEmail();
+        final String recipientName = savedReservation.getTraveller().getPersonalInformations().getFirstname() + " " + savedReservation.getTraveller().getPersonalInformations().getLastname();
+        final String subject = "Réservation refusée";
+        final Map<String, String> variables = emailService.makeEmailResaAccepteeData(savedReservation);
+        emailService.sendEmail(recipientEmail, recipientName, subject, templateResaRefuseeId, variables);
+        //RETURN DE LA RESERVATION MODIFIEE
+        return reservationMapper.toReservationDTO(savedReservation);
     }
 
     public ReservationDTO acceptReservation(Long id, ReservationSaveRequest reservationSaveRequest) {
-        //TODO send Email
-        return update(id, reservationSaveRequest);
+
+        //RECUPERATION OU MISE A JOUR DE TRAVELLER
+        Traveller updatedTraveller = findbyid.findTravellerById(reservationSaveRequest.getTraveller().getId());
+
+        //RECUPERATION DE L'appartment
+        final Appartment appartmentToUpdate = findbyid.findAppartmentById(reservationSaveRequest.getAppartmentId());
+
+        //RECUPERATION DE LA RESERVATION
+        final Reservation reservationToUpdate = findbyid.findReservationById(id);
+        //UPDATE DE LA RESERVATION
+        //il faut mettre à jour l'id de traveller.personalInformation car si elle a changé lors de la MAJ de traveller, ça bug autrement
+        reservationSaveRequest.getTraveller().getPersonalInformations().setId(updatedTraveller.getPersonalInformations().getId());
+        reservationMapper.overrideFromReservationSaveRequest(reservationSaveRequest, reservationToUpdate);
+        reservationToUpdate.setTraveller(updatedTraveller);
+        reservationToUpdate.setAppartment(appartmentToUpdate);
+        //SAUVEGARDE DE LA RESERVATION
+        final Reservation savedReservation = reservationRepository.save(reservationToUpdate);
+
+        //send Email
+        final String recipientEmail = savedReservation.getTraveller().getPersonalInformations().getEmail();
+        final String recipientName = savedReservation.getTraveller().getPersonalInformations().getFirstname() + " " + savedReservation.getTraveller().getPersonalInformations().getLastname();
+        final String subject = "Votre reservation à Orléans du " + savedReservation.getFormatedCheckinDate() + " au " + savedReservation.getFormatedCheckoutDate();
+        final Map<String, String> variables = emailService.makeEmailResaAccepteeData(savedReservation);
+        emailService.sendEmail(recipientEmail, recipientName, subject, templateResaAccepteId, variables);
+        //RETURN DE LA RESERVATION MODIFIEE
+        return reservationMapper.toReservationDTO(savedReservation);
     }
 
     @Override
