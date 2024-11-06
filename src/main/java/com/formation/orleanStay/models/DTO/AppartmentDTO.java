@@ -1,6 +1,7 @@
 package com.formation.orleanStay.models.DTO;
 
 import com.formation.orleanStay.models.enumeration.EAppartmentType;
+import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -36,6 +37,8 @@ public class AppartmentDTO {
     private int nightPrice;
 
     private int caution;
+
+    private int prixPersonneSupplementaire;
 
     private int menageCourtSejour;
 

@@ -49,6 +49,9 @@ public class AppartmentSaveRequest {
     private int caution;
 
     @NotNull
+    private int prixPersonneSupplementaire;
+
+    @NotNull
     private int menageCourtSejour;
 
     @NotNull
