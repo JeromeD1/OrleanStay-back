@@ -70,6 +70,7 @@ public interface AppartmentMapper {
     @Mapping(source = "saveRequest.distanceTram", target = "distanceTram")
     @Mapping(source = "saveRequest.nightPrice", target = "nightPrice")
     @Mapping(source = "saveRequest.caution", target = "caution")
+    @Mapping(source = "saveRequest.prixPersonneSupplementaire", target = "prixPersonneSupplementaire")
     @Mapping(source = "saveRequest.menageCourtSejour", target = "menageCourtSejour")
     @Mapping(source = "saveRequest.menageLongSejour", target = "menageLongSejour")
     @Mapping(source = "saveRequest.menageLongueDuree", target = "menageLongueDuree")

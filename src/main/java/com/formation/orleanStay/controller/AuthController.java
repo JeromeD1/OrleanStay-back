@@ -76,4 +76,10 @@ public class AuthController {
     public boolean askForReinitializingPassword(@RequestBody ReinitialisationPasswordSaveRequest request){
         return authService.reinitialisePassword(request);
     }
+
+    @GetMapping("/verifySessionActivity")
+    public boolean verifySessionActivity() {
+        log.info("Verify session activity, return true if user authenticated");
+        return true;
+    }
 }

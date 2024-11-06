@@ -72,6 +72,10 @@ public class Appartment {
 
     @Column(nullable = false)
     @NotNull
+    private int prixPersonneSupplementaire;
+
+    @Column(nullable = false)
+    @NotNull
     private int menageCourtSejour;
 
     @Column(nullable = false)
