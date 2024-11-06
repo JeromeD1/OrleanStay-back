@@ -146,4 +146,11 @@ public class JwtUtils {
 
         return false;
     }
+
+    public boolean verifyJwtToken(String authToken) {
+        final JwtParser parser = Jwts.parser().verifyWith(secretKey()).build();
+        //ici je ne vérifie pas les exceptions pour les lever dans la méthode appelante
+            parser.parse(authToken);
+            return true;
+    }
 }

@@ -18,6 +18,9 @@ import com.formation.orleanStay.service.AuthService;
 import com.formation.orleanStay.service.RecoveryTokenService;
 import com.formation.orleanStay.utils.Findbyid;
 import com.formation.orleanStay.utils.JwtUtils;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
@@ -114,8 +117,22 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public  boolean reinitialisePassword(ReinitialisationPasswordSaveRequest request) {
-        //TODO
-        return true;
+        //vérifier que le token est présent et le récupérer
+        RecoveryToken recoveryToken = recoveryTokenService.findByToken(request.getToken());
+        //vérifier qu'il n'est pas expiré
+        if (!validateAndHandleJwtToken(request.getToken())) { return false; }
+
+        String login = jwtUtils.getLoginFromJwtToken(request.getToken());
+
+        if(!login.equals(recoveryToken.getUtilisateur().getLogin()) || !request.getPassword().equals(request.getConfirmationPassword())) {
+            return false;
+        } else {
+            String hashedPassword = passwordEncoder.encode(request.getPassword());
+            recoveryToken.getUtilisateur().setPassword(hashedPassword);
+            utilisateurRepository.save(recoveryToken.getUtilisateur());
+            recoveryTokenService.delete(recoveryToken.getId());
+            return true;
+        }
     }
 
     private boolean verifyPassword(String requestPassword, String hashedBddPassword) {
@@ -136,6 +153,16 @@ public class AuthServiceImpl implements AuthService {
                 .path("/")
                 .maxAge(0)
                 .build();
+    }
+
+    private boolean validateAndHandleJwtToken(String token) {
+        try {
+            jwtUtils.verifyJwtToken(token);
+            return true;
+        } catch (MalformedJwtException | ExpiredJwtException | UnsupportedJwtException | IllegalArgumentException e) {
+            recoveryTokenService.delete(recoveryTokenService.findByToken(token).getId());
+            return false;
+        }
     }
 
 }

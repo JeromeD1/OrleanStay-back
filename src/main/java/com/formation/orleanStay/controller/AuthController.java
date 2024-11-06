@@ -2,6 +2,8 @@ package com.formation.orleanStay.controller;
 
 import com.formation.orleanStay.models.payload.JwtResponse;
 import com.formation.orleanStay.models.request.LoginRequest;
+import com.formation.orleanStay.models.request.RecoveryTokenRequest;
+import com.formation.orleanStay.models.request.ReinitialisationPasswordSaveRequest;
 import com.formation.orleanStay.models.request.SignupSaveRequest;
 import com.formation.orleanStay.service.AuthService;
 import com.formation.orleanStay.utils.JwtUtils;
@@ -67,5 +69,11 @@ public class AuthController {
     @ResponseStatus(HttpStatus.OK)
     public boolean askForReinitializingPassword(@RequestBody String email){
         return authService.askForReinitializingPassword(email);
+    }
+
+    @PostMapping("/reinitialisePassword")
+    @ResponseStatus(HttpStatus.OK)
+    public boolean askForReinitializingPassword(@RequestBody ReinitialisationPasswordSaveRequest request){
+        return authService.reinitialisePassword(request);
     }
 }
