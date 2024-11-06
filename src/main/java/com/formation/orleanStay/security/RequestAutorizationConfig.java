@@ -45,6 +45,8 @@ public class RequestAutorizationConfig {
                 .requestMatchers(POST, "/signup").permitAll()
                 .requestMatchers(POST, "/login").permitAll()
                 .requestMatchers(POST, "/logMeOut").permitAll()
+                .requestMatchers(POST, "/askForReinitializingPassword").permitAll()
+                .requestMatchers(POST, "/reinitialisePassword").permitAll()
 
                 .requestMatchers(GET, "/appartment/active").permitAll()
                 .requestMatchers(GET, "/appartment/all").hasRole(ADMIN)

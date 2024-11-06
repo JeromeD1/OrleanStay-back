@@ -25,11 +25,14 @@ public class JwtUtils {
 
     private final int expirationMs;
 
+    private final int expirationNewPasswordTokenMs;
+
 //    private final int refreshExpirationMs;
 
     public JwtUtils(JwtProperties jwtProperties) {
         this.secret = jwtProperties.getSecret();
         this.expirationMs = jwtProperties.getExpirationMs();
+        expirationNewPasswordTokenMs = jwtProperties.getExpirationNewPasswordTokenMs();
 //        this.refreshExpirationMs = jwtProperties.getRefreshExpirationMs();
     }
 
@@ -43,6 +46,18 @@ public class JwtUtils {
         ClaimsBuilder claims = Jwts.claims();
         claims.subject(username);
         return generateToken(claims.build(), expirationMs);
+    }
+
+    /**
+     * Generate an reinitialisationPassword token with a email
+     *
+     * @param email used to generate the token
+     * @return the access token
+     */
+    public String generateReinitialisationPasswordToken(String email) {
+        ClaimsBuilder claims = Jwts.claims();
+        claims.subject(email);
+        return generateToken(claims.build(), expirationNewPasswordTokenMs);
     }
 
     /**
@@ -130,5 +145,12 @@ public class JwtUtils {
         }
 
         return false;
+    }
+
+    public boolean verifyJwtToken(String authToken) {
+        final JwtParser parser = Jwts.parser().verifyWith(secretKey()).build();
+        //ici je ne vérifie pas les exceptions pour les lever dans la méthode appelante
+            parser.parse(authToken);
+            return true;
     }
 }

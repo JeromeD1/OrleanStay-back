@@ -2,6 +2,7 @@ package com.formation.orleanStay.service;
 
 import com.formation.orleanStay.models.payload.JwtResponse;
 import com.formation.orleanStay.models.request.LoginRequest;
+import com.formation.orleanStay.models.request.ReinitialisationPasswordSaveRequest;
 import com.formation.orleanStay.models.request.SignupSaveRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseCookie;
@@ -22,4 +23,10 @@ public interface AuthService {
     void logout();
 
     ResponseCookie deleteCookie(HttpServletResponse response);
+
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    boolean askForReinitializingPassword(String email);
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    boolean reinitialisePassword(ReinitialisationPasswordSaveRequest request);
 }

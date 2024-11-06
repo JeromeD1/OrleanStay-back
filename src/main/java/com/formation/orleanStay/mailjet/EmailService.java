@@ -21,8 +21,8 @@ import java.util.Map;
 public class EmailService {
     private final MailjetClient mailjetClient;
 
-//    @Value("${mailjet.resa.accepte.template.id}")
-//    private String templateResaAccepteId;
+    @Value("${mailjet.reinitialisation.mdp.template.id}")
+    private String templateReinitialisationMDPId;
 
     @Value("${frontend.url}")
     private String lienDuSite;
@@ -70,6 +70,13 @@ public class EmailService {
         }
     }
 
+    public void sendEmail(String recipientEmail,
+                          String recipientName,
+                          String subject,
+                          Map<String, String> variables
+    ) {
+        sendEmail(recipientEmail, recipientName, subject, templateReinitialisationMDPId, variables);
+    }
 
     public Map<String, String> makeEmailResaAccepteeData(Reservation reservation) {
         Map<String, String> variables = new HashMap<>();
@@ -148,6 +155,14 @@ public class EmailService {
         variables.put("depositValue", reservation.getDepositValue().toString());
         variables.put("phoneOwner", reservation.getAppartment().getOwner().getPersonalInformations().getPhone());
         variables.put("emailOwner", reservation.getAppartment().getOwner().getPersonalInformations().getEmail());
+        variables.put("lienDuSite", lienDuSite);
+
+        return variables;
+    }
+
+    public Map<String, String> makeEmailReinitialisationPasswordData(String token) {
+        Map<String, String> variables = new HashMap<>();
+        variables.put("lienPageReinitialisation", lienDuSite + "/passwordReinitialisation/" + token);
         variables.put("lienDuSite", lienDuSite);
 
         return variables;
