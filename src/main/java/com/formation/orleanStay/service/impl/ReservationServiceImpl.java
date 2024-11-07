@@ -7,9 +7,11 @@ import com.formation.orleanStay.models.entity.*;
 import com.formation.orleanStay.models.entity.Appartment;
 import com.formation.orleanStay.models.entity.Reservation;
 import com.formation.orleanStay.models.entity.Traveller;
+import com.formation.orleanStay.models.request.ReservationResearchRequest;
 import com.formation.orleanStay.models.request.ReservationSaveRequest;
 import com.formation.orleanStay.models.request.TravellerSaveRequest;
 import com.formation.orleanStay.repository.ReservationRepository;
+import com.formation.orleanStay.repository.ReservationRepositoryCustom;
 import com.formation.orleanStay.service.PersonalInformationService;
 import com.formation.orleanStay.service.ReservationService;
 import com.formation.orleanStay.service.TravellerService;
@@ -30,6 +32,7 @@ import java.util.Map;
 public class ReservationServiceImpl implements ReservationService {
 
     private final ReservationRepository reservationRepository;
+    private final ReservationRepositoryCustom reservationRepositoryCustom;
     private final ReservationMapper reservationMapper;
     private final TravellerService travellerService;
     private final Findbyid findbyid;
@@ -53,8 +56,9 @@ public class ReservationServiceImpl implements ReservationService {
     @Value("${mailjet.demande.arrhes.template.id}")
     private String templateDemandeArrhesId;
 
-    public ReservationServiceImpl(ReservationRepository reservationRepository, ReservationMapper reservationMapper, TravellerService travellerService, Findbyid findbyid, EmailService emailService) {
+    public ReservationServiceImpl(ReservationRepository reservationRepository, ReservationRepositoryCustom reservationRepositoryCustom, ReservationMapper reservationMapper, TravellerService travellerService, Findbyid findbyid, EmailService emailService) {
         this.reservationRepository = reservationRepository;
+        this.reservationRepositoryCustom = reservationRepositoryCustom;
         this.reservationMapper = reservationMapper;
         this.travellerService = travellerService;
         this.findbyid = findbyid;
@@ -309,6 +313,15 @@ public class ReservationServiceImpl implements ReservationService {
         final LocalDateTime now = LocalDateTime.now();
         final LocalDateTime oneMonthAgo = now.minusMonths(1);
         final List<Reservation> reservations = reservationRepository.findwithCheckoutDateLaterThanOneMonthAgo(oneMonthAgo);
+
+        return reservations.stream()
+                .map(reservationMapper::toReservationDTO)
+                .toList();
+    }
+
+    @Override
+    public List<ReservationDTO> findwithCriteria(ReservationResearchRequest reservationResearchRequest) {
+        List<Reservation> reservations = reservationRepositoryCustom.findReservationsByCriteria(reservationResearchRequest);
 
         return reservations.stream()
                 .map(reservationMapper::toReservationDTO)

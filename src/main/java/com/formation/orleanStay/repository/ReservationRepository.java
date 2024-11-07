@@ -2,6 +2,7 @@ package com.formation.orleanStay.repository;
 
 import com.formation.orleanStay.models.entity.Reservation;
 import com.formation.orleanStay.models.entity.Utilisateur;
+import com.formation.orleanStay.models.request.ReservationResearchRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -31,6 +32,5 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     @Query("SELECT r FROM Reservation r " +
             "WHERE r.checkoutDate > :lastMonth ")
     List<Reservation> findwithCheckoutDateLaterThanOneMonthAgo(@Param("lastMonth") LocalDateTime lastMonth);
-
 
 }

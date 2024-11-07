@@ -3,6 +3,7 @@ package com.formation.orleanStay.controller;
 import com.formation.orleanStay.models.DTO.ReservationDTO;
 import com.formation.orleanStay.models.entity.PersonalInformation;
 import com.formation.orleanStay.models.request.PersonalInformationSaveRequest;
+import com.formation.orleanStay.models.request.ReservationResearchRequest;
 import com.formation.orleanStay.models.request.ReservationSaveRequest;
 import com.formation.orleanStay.service.ReservationService;
 import com.formation.orleanStay.service.TravellerService;
@@ -143,6 +144,13 @@ public class ReservationController {
                 Objects.equals(request.getAddress(), information.getAddress()) &&
                 Objects.equals(request.getCity(), information.getCity()) &&
                 Objects.equals(request.getCountry(), information.getCountry());
+    }
+
+    @PostMapping("/findWithCriteria")
+    public List<ReservationDTO> findwithCriteria(@RequestBody ReservationResearchRequest reservationResearchRequest) {
+        log.debug("Fetching reservation with criterias from : {}", reservationResearchRequest);
+        System.out.println("TEEEEEEST");
+        return reservationService.findwithCriteria(reservationResearchRequest);
     }
 
 }
