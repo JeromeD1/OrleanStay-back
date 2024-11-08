@@ -328,4 +328,16 @@ public class ReservationServiceImpl implements ReservationService {
                 .toList();
     }
 
+    @Override
+    public Long sendInfoTravelEmail(Long reservationId) {
+        final Reservation reservation = findbyid.findReservationById(reservationId);
+        final String recipientEmail = reservation.getTraveller().getPersonalInformations().getEmail();
+        final String recipientName = reservation.getTraveller().getPersonalInformations().getFirstname() + " " + reservation.getTraveller().getPersonalInformations().getLastname();
+        final String subject = "Votre reservation à Orléans du " + reservation.getFormatedCheckinDate() + " au " + reservation.getFormatedCheckoutDate();
+        final Map<String, String> variables = emailService.makeEmailResaAccepteeData(reservation);
+        emailService.sendEmail(recipientEmail, recipientName, subject, templateResaAccepteId, variables);
+
+        return reservation.getId();
+    }
+
 }

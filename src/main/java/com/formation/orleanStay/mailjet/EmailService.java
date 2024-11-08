@@ -89,7 +89,9 @@ public class EmailService {
         variables.put("nbBaby", String.valueOf(reservation.getNbBaby()));
         variables.put("nbNights", reservation.getNumberOfNights().toString());
         variables.put("reservationPrice", reservation.getReservationPrice() + " €");
+        if(reservation.getDepositValue() != null){
         variables.put("depositValue", reservation.getDepositValue().toString());
+        }
         variables.put("ownerPhone", reservation.getAppartment().getOwner().getPersonalInformations().getPhone());
         variables.put("lienInfoResa", lienDuSite + "/infoReservation/" + reservation.getId() + "/" + reservation.getTraveller().getId());
         variables.put("lienDuSite", lienDuSite);

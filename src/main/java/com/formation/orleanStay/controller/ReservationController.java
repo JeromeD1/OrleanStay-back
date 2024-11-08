@@ -8,6 +8,7 @@ import com.formation.orleanStay.models.request.ReservationSaveRequest;
 import com.formation.orleanStay.service.ReservationService;
 import com.formation.orleanStay.service.TravellerService;
 import com.formation.orleanStay.utils.Findbyid;
+import jakarta.websocket.server.PathParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -151,6 +152,12 @@ public class ReservationController {
         log.debug("Fetching reservation with criterias from : {}", reservationResearchRequest);
         System.out.println("TEEEEEEST");
         return reservationService.findwithCriteria(reservationResearchRequest);
+    }
+
+    @GetMapping("/sendInfoTravelEmail/{reservationId}")
+    public Long sendInfoTravelEmail(@PathVariable Long reservationId) {
+        log.debug("Sending info travel email with reservationId : {}", reservationId);
+        return reservationService.sendInfoTravelEmail(reservationId);
     }
 
 }

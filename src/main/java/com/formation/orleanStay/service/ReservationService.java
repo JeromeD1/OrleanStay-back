@@ -57,4 +57,6 @@ public interface ReservationService {
 
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     List<ReservationDTO> findwithCriteria(ReservationResearchRequest reservationResearchRequest);
+
+    Long sendInfoTravelEmail(Long reservationId);
 }

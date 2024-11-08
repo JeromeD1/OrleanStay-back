@@ -99,6 +99,7 @@ public class RequestAutorizationConfig {
 
                 .requestMatchers(GET, "/reservation/requests/all").hasAnyRole(ADMIN)
                 .requestMatchers(GET, "/reservation/requests/**").hasAnyRole(OWNER, ADMIN)
+                .requestMatchers(GET, "/reservation/sendInfoTravelEmail/**").hasAnyRole(OWNER, ADMIN)
                 .requestMatchers(GET, RESERVATION_ENDPOINT).authenticated()
                 .requestMatchers(POST, "/reservation/findWithCriteria").hasAnyRole(OWNER, ADMIN)
                 .requestMatchers(POST, RESERVATION_ENDPOINT).permitAll()
