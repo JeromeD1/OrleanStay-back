@@ -10,23 +10,17 @@ import com.formation.orleanStay.models.request.ReservationChatSaveRequest;
 import com.formation.orleanStay.repository.ReservationChatRepository;
 import com.formation.orleanStay.service.ReservationChatService;
 import com.formation.orleanStay.utils.Findbyid;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class ReservationChatServiceImpl implements ReservationChatService {
-    final private ReservationChatRepository reservationChatRepository;
-    final private ReservationChatMapper reservationChatMapper;
-    final private Findbyid findbyid;
-    final private UtilisateurMapper utilisateurMapper;
-
-    public ReservationChatServiceImpl(ReservationChatRepository reservationChatRepository, ReservationChatMapper reservationChatMapper, Findbyid findbyid, UtilisateurMapper utilisateurMapper) {
-        this.reservationChatRepository = reservationChatRepository;
-        this.reservationChatMapper = reservationChatMapper;
-        this.findbyid = findbyid;
-        this.utilisateurMapper = utilisateurMapper;
-    }
+    private final ReservationChatRepository reservationChatRepository;
+    private final ReservationChatMapper reservationChatMapper;
+    private final Findbyid findbyid;
 
     @Override
     public List<ReservationChatDTO> findByReservationId(Long reservationId) {
@@ -56,5 +50,4 @@ public class ReservationChatServiceImpl implements ReservationChatService {
         final ReservationChat commentChatToDelete = findbyid.findReservationChatById(id);
         reservationChatRepository.delete(commentChatToDelete);
     }
-
 }

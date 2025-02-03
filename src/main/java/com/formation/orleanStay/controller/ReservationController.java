@@ -150,7 +150,6 @@ public class ReservationController {
     @PostMapping("/findWithCriteria")
     public List<ReservationDTO> findwithCriteria(@RequestBody ReservationResearchRequest reservationResearchRequest) {
         log.debug("Fetching reservation with criterias from : {}", reservationResearchRequest);
-        System.out.println("TEEEEEEST");
         return reservationService.findwithCriteria(reservationResearchRequest);
     }
 
