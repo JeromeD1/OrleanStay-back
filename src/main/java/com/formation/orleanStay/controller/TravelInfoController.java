@@ -33,6 +33,7 @@ public class TravelInfoController {
     @ResponseStatus(HttpStatus.OK)
     public List<TravelInfoDTO> findByReservationAndTravellerIds(@PathVariable Long reservationId, @PathVariable Long travellerId) {
         log.debug("Fetching all travelInfos from appartment of reservation of id {}", reservationId);
+        System.out.println("Dans controleur 1111111111111");
         return travelInfoService.findByReservationAndTravellerIds(reservationId, travellerId);
     }
 

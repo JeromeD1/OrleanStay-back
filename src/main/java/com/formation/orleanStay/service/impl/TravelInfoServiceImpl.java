@@ -41,19 +41,22 @@ public class TravelInfoServiceImpl implements TravelInfoService {
 
     @Override
     public List<TravelInfoDTO> findByReservationAndTravellerIds(Long reservationId, Long travellerId) {
+        System.out.println("dans service.........");
         //récupération de la réservation
         final Reservation reservation = findbyid.findReservationById(reservationId);
         //verification que le traveller est le bon, sinon return null
         //idem si la date de sortie est déjà passée
         //idem si la reservation n'est pas acceptée
+        System.out.println("reservation trouvee 3333333333");
         final LocalDateTime now = LocalDateTime.now();
         if(!reservation.getTraveller().getId().equals(travellerId) ||
                 now.isAfter(reservation.getCheckoutDate()) ||
                 Boolean.FALSE.equals(reservation.getAccepted()) ||
                 Boolean.TRUE.equals(reservation.getCancelled())) {
+            System.out.println("dans condition return null 44444444");
             return null;
         }
-
+        System.out.println("j'ai passe le test 5555555555");
         return travelInfoRepository.findByAppartment_Id(reservation.getAppartmentId())
                 .stream()
                 .map(travelInfoMapper::toTravelInfoDTO)
