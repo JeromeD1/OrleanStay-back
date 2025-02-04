@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.formation</groupId>
-	<artifactId>formationAPI</artifactId>
+	<artifactId>orleansstayAPI</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>formationAPI</name>
+	<name>orleansstayAPI</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>21</java.version>
@@ -96,6 +96,11 @@
 			<groupId>com.mailjet</groupId>
 			<artifactId>mailjet-client</artifactId>
 			<version>5.2.5</version>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
 
