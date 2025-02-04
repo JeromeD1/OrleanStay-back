@@ -113,7 +113,35 @@ jobs:
           echo 'SPRING_DATASOURCE_USERNAME=${{ secrets.SPRING_DATASOURCE_USERNAME }}' >> /home/${{ secrets.SERVER_USER }}/orleans-stay-api/.env.prod &&
           echo 'SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }}' >> /home/${{ secrets.SERVER_USER }}/orleans-stay-api/.env.prod &&
           echo 'SPRING_JPA_HIBERNATE_DDL_AUTO=${{ secrets.SPRING_JPA_HIBERNATE_DDL_AUTO }}' >> /home/${{ secrets.SERVER_USER }}/orleans-stay-api/.env.prod &&
-          chmod 600 /home/${{ secrets.SERVER_USER }}/orleans-stay-api/.env.prod
+          echo 'SERVER_PORT=${{ vars.SERVER_PORT }}' >> /home/${{ secrets.SERVER_USER }}/orleans-stay-api/.env.prod &&
+          echo 'SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL=${{ secrets.SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL }}' >> /home/${{ secrets.SERVER_USER }}/orleans-stay-api/.env.prod &&
+          echo 'SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=${{ secrets.SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT }}' >> /home/${{ secrets.SERVER_USER }}/orleans-stay-api/.env.prod &&
+          echo 'LOGGING_LEVEL_ROOT=${{ secrets.LOGGING_LEVEL_ROOT }}' >> /home/${{ secrets.SERVER_USER }}/orleans-stay-api/.env.prod &&
+          echo 'LOGGING_LEVEL_COM_FORMATIONAPI=${{ secrets.LOGGING_LEVEL_COM_FORMATIONAPI }}' >> /home/${{ secrets.SERVER_USER }}/orleans-stay-api/.env.prod &&
+          echo 'LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_BOOT_WEB_EMBEDDED_TOMCAT=${{ secrets.LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_BOOT_WEB_EMBEDDED_TOMCAT }}' >> /home/${{ secrets.SERVER_USER }}/orleans-stay-api/.env.prod &&
+          echo 'SPRING_SECURITY_USER_NAME=${{ secrets.SPRING_SECURITY_USER_NAME }}' >> /home/${{ secrets.SERVER_USER }}/orleans-stay-api/.env.prod &&
+          echo 'SPRING_SECURITY_USER_PASSWORD=${{ secrets.SPRING_SECURITY_USER_PASSWORD }}' >> /home/${{ secrets.SERVER_USER }}/orleans-stay-api/.env.prod &&
+          echo 'LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY=${{ secrets.LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY }}' >> /home/${{ secrets.SERVER_USER }}/orleans-stay-api/.env.prod &&
+          echo 'ORLEANS_STAY_APP_JWT_SECRET=${{ secrets.ORLEANS_STAY_APP_JWT_SECRET }}' >> /home/${{ secrets.SERVER_USER }}/orleans-stay-api/.env.prod &&
+          echo 'ORLEANS_STAY_APP_JWT_EXPIRATIONMS=${{ secrets.ORLEANS_STAY_APP_JWT_EXPIRATIONMS }}' >> /home/${{ secrets.SERVER_USER }}/orleans-stay-api/.env.prod &&
+          echo 'ORLEANS_STAY_APP_JWT_EXPIRATIONNEWPASSWORDTOKENMS=${{ secrets.ORLEANS_STAY_APP_JWT_EXPIRATIONNEWPASSWORDTOKENMS }}' >> /home/${{ secrets.SERVER_USER }}/orleans-stay-api/.env.prod &&
+          echo 'WEB_CORS_ALLOWEDORIGINS=${{ secrets.WEB_CORS_ALLOWEDORIGINS }}' >> /home/${{ secrets.SERVER_USER }}/orleans-stay-api/.env.prod &&
+          echo 'WEB_CORS_ALLOWEDMETHODS=${{ secrets.WEB_CORS_ALLOWEDMETHODS }}' >> /home/${{ secrets.SERVER_USER }}/orleans-stay-api/.env.prod &&
+          echo 'WEB_CORS_ALLOWCREDENTIALS=${{ secrets.WEB_CORS_ALLOWCREDENTIALS }}' >> /home/${{ secrets.SERVER_USER }}/orleans-stay-api/.env.prod &&
+          echo 'CLOUDINARY_CLOUD_NAME=${{ secrets.CLOUDINARY_CLOUD_NAME }}' >> /home/${{ secrets.SERVER_USER }}/orleans-stay-api/.env.prod &&
+          echo 'CLOUDINARY_API_KEY=${{ secrets.CLOUDINARY_API_KEY }}' >> /home/${{ secrets.SERVER_USER }}/orleans-stay-api/.env.prod &&
+          echo 'CLOUDINARY_API_SECRET=${{ secrets.CLOUDINARY_API_SECRET }}' >> /home/${{ secrets.SERVER_USER }}/orleans-stay-api/.env.prod &&
+          echo 'CLOUDINARY_FOLDER=${{ secrets.CLOUDINARY_FOLDER }}' >> /home/${{ secrets.SERVER_USER }}/orleans-stay-api/.env.prod &&
+          echo 'MAILJET_API_KEY=${{ secrets.MAILJET_API_KEY }}' >> /home/${{ secrets.SERVER_USER }}/orleans-stay-api/.env.prod &&
+          echo 'MAILJET_SECRET_KEY=${{ secrets.MAILJET_SECRET_KEY }}' >> /home/${{ secrets.SERVER_USER }}/orleans-stay-api/.env.prod &&
+          echo 'MAILJET_RESA_ACCEPTE_TEMPLATE_ID=${{ secrets.MAILJET_RESA_ACCEPTE_TEMPLATE_ID }}' >> /home/${{ secrets.SERVER_USER }}/orleans-stay-api/.env.prod &&
+          echo 'MAILJET_DEMANDE_RESA_TEMPLATE_ID=${{ secrets.MAILJET_DEMANDE_RESA_TEMPLATE_ID }}' >> /home/${{ secrets.SERVER_USER }}/orleans-stay-api/.env.prod &&
+          echo 'MAILJET_DEMANDE_ARRHES_TEMPLATE_ID=${{ secrets.MAILJET_DEMANDE_ARRHES_TEMPLATE_ID }}' >> /home/${{ secrets.SERVER_USER }}/orleans-stay-api/.env.prod &&
+          echo 'MAILJET_RESA_REFUSEE_TEMPLATE_ID=${{ secrets.MAILJET_RESA_REFUSEE_TEMPLATE_ID }}' >> /home/${{ secrets.SERVER_USER }}/orleans-stay-api/.env.prod &&
+          echo 'MAILJET_RESA_ANNULEE_TEMPLATE_ID=${{ secrets.MAILJET_RESA_ANNULEE_TEMPLATE_ID }}' >> /home/${{ secrets.SERVER_USER }}/orleans-stay-api/.env.prod &&
+          echo 'MAILJET_REINITIALISATION_MDP_TEMPLATE_ID=${{ secrets.MAILJET_REINITIALISATION_MDP_TEMPLATE_ID }}' >> /home/${{ secrets.SERVER_USER }}/orleans-stay-api/.env.prod &&
+          echo 'FRONTEND_URL=${{ secrets.FRONTEND_URL }}' >> /home/${{ secrets.SERVER_USER }}/orleans-stay-api/.env.prod &&
+          echo 'DOMAIN_EMAIL=${{ secrets.DOMAIN_EMAIL }}' >> /home/${{ secrets.SERVER_USER }}/orleans-stay-api/.env.prod
           "
 
       - name: Build Docker image and deploy
