@@ -35,6 +35,12 @@ jobs:
       - name: 🛠️ Grant execute permissions for Maven Wrapper
         run: chmod +x ./mvnw
 
+      - name: 🌍 Load environment variables
+        run: |
+          echo "Loading environment variables..."
+          cat .env
+          export $(grep -v '^#' .env | xargs)
+
       - name: ✅ Build and run tests
         env:
           SPRING_PROFILES_ACTIVE: test
