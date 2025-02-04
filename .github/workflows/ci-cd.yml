@@ -32,6 +32,9 @@ jobs:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
 
+      - name: 🛠️ Grant execute permissions for Maven Wrapper
+        run: chmod +x ./mvnw
+
       - name: ✅ Build and run tests
         env:
           SPRING_PROFILES_ACTIVE: test
