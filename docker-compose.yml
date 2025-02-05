@@ -1,5 +1,6 @@
 services:
   app:
+    container_name: orleans-stay-api
     build:
       context: .
       dockerfile: Dockerfile
@@ -45,6 +46,7 @@ services:
       - db
 
   db:
+    container_name: orleans-stay-db
     image: mysql:8
     ports:
       - "3307:3306"

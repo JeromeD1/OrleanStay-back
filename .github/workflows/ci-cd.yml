@@ -148,7 +148,7 @@ jobs:
       - name: Build Docker image and deploy
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "
-          cd /home/ubuntu/orleans-stay-api &&
+          cd /home/${{ secrets.SERVER_USER }}/orleans-stay-api &&
           docker compose down &&
           docker compose --env-file .env.prod up -d --build
           "
