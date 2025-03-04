@@ -34,35 +34,35 @@ public class ReservationController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<ReservationDTO> findAll(){
-        log.debug("Fetching all reservations");
+        log.info("Fetching all reservations");
         return reservationService.findAll();
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ReservationDTO findById(@PathVariable Long id){
-        log.debug("Fetching reservation with id = {}", id);
+        log.info("Fetching reservation with id = {}", id);
         return reservationService.findDTOById(id);
     }
 
     @GetMapping("/requests/all")
     @ResponseStatus(HttpStatus.OK)
     public List<ReservationDTO> findAllRequests(){
-        log.debug("Fetching all reservation requests ");
+        log.info("Fetching all reservation requests ");
         return reservationService.findAllReservationRequests();
     }
 
     @GetMapping("/user/{userId}")
     @ResponseStatus(HttpStatus.OK)
     public List<ReservationDTO> findbyUserId(@PathVariable Long userId){
-        log.debug("Fetching reservations by userId = {} ", userId);
+        log.info("Fetching reservations by userId = {} ", userId);
         return reservationService.findbyUserId(userId);
     }
 
     @GetMapping("/requests/owner/{ownerId}")
     @ResponseStatus(HttpStatus.OK)
     public List<ReservationDTO> findAllRequestsByOwnerId(@PathVariable Long ownerId){
-        log.debug("Fetching all reservation requests with ownerId = {}", ownerId);
+        log.info("Fetching all reservation requests with ownerId = {}", ownerId);
         return reservationService.findReservationRequestsByOwnerId(ownerId);
     }
 
@@ -70,14 +70,14 @@ public class ReservationController {
     @ResponseStatus(HttpStatus.CREATED)
     public ReservationDTO create(@RequestBody ReservationSaveRequest reservationSaveRequest) {
         System.out.println("demande de reservation " + reservationSaveRequest);
-        log.debug("Add new reservation with value : {}", reservationSaveRequest);
+        log.info("Add new reservation with value : {}", reservationSaveRequest);
             return reservationService.create(reservationSaveRequest);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ReservationDTO update(@PathVariable Long id, @RequestBody ReservationSaveRequest reservationSaveRequest) {
-        log.debug("Updating reservation of id {} with value {}", id, reservationSaveRequest);
+        log.info("Updating reservation of id {} with value {}", id, reservationSaveRequest);
         PersonalInformation actualPersonalInformation = findbyid.findPersonalInformationById(reservationSaveRequest.getTraveller().getPersonalInformations().getId());
         if(!comparePersonalInformation(reservationSaveRequest.getTraveller().getPersonalInformations(), actualPersonalInformation)){
             travellerService.update(reservationSaveRequest.getTraveller().getId(),reservationSaveRequest.getTraveller());
@@ -88,49 +88,49 @@ public class ReservationController {
     @PutMapping("/{id}/cancelFromTraveller")
     @ResponseStatus(HttpStatus.OK)
     public ReservationDTO cancelFromTraveller(@PathVariable Long id, @RequestBody ReservationSaveRequest reservationSaveRequest) {
-        log.debug("Cancelling reservation of id {} with value {}", id, reservationSaveRequest);
+        log.info("Cancelling reservation of id {} with value {}", id, reservationSaveRequest);
         return reservationService.cancelFromTraveller(id, reservationSaveRequest);
     }
 
     @PutMapping("/{id}/askForDeposit")
     @ResponseStatus(HttpStatus.OK)
     public ReservationDTO askForDeposit(@PathVariable Long id, @RequestBody ReservationSaveRequest reservationSaveRequest) {
-        log.debug("Updating reservation of id {} with value {}", id, reservationSaveRequest);
+        log.info("Updating reservation of id {} with value {}", id, reservationSaveRequest);
         return reservationService.askForDeposit(id, reservationSaveRequest);
     }
 
     @PutMapping("/{id}/accept")
     @ResponseStatus(HttpStatus.OK)
     public ReservationDTO acceptReservation(@PathVariable Long id, @RequestBody ReservationSaveRequest reservationSaveRequest) {
-        log.debug("Updating reservation of id {} with value {}", id, reservationSaveRequest);
+        log.info("Updating reservation of id {} with value {}", id, reservationSaveRequest);
         return reservationService.acceptReservation(id, reservationSaveRequest);
     }
 
     @PutMapping("/{id}/reject")
     @ResponseStatus(HttpStatus.OK)
     public ReservationDTO rejectReservation(@PathVariable Long id, @RequestBody ReservationSaveRequest reservationSaveRequest) {
-        log.debug("Updating reservation of id {} with value {}", id, reservationSaveRequest);
+        log.info("Updating reservation of id {} with value {}", id, reservationSaveRequest);
         return reservationService.rejectReservation(id, reservationSaveRequest);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id){
-        log.debug("Deleting reservation with id {}", id);
+        log.info("Deleting reservation with id {}", id);
         reservationService.delete(id);
     }
 
     @GetMapping("/withWaitingReservationChat/notFromUser/{userId}")
     @ResponseStatus(HttpStatus.OK)
     public List<ReservationDTO> findFilteredReservationsForReservationChatAnswering(@PathVariable Long userId) {
-        log.debug("Fetching reservation with Reservation chat as last ReservationChat not from utilisateur whith id {}", userId);
+        log.info("Fetching reservation with Reservation chat as last ReservationChat not from utilisateur whith id {}", userId);
         return reservationService.findFilteredReservationsForReservationChatAnswering(userId);
     }
 
     @GetMapping("/withCheckoutDateLaterThanOneMonthAgo")
     @ResponseStatus(HttpStatus.OK)
     public List<ReservationDTO> findwithCheckoutDateLaterThanOneMonthAgo() {
-        log.debug("Fetching reservation with CheckoutDate Later Than One Month Ago");
+        log.info("Fetching reservation with CheckoutDate Later Than One Month Ago");
         return reservationService.findwithCheckoutDateLaterThanOneMonthAgo();
     }
 
@@ -149,13 +149,13 @@ public class ReservationController {
 
     @PostMapping("/findWithCriteria")
     public List<ReservationDTO> findwithCriteria(@RequestBody ReservationResearchRequest reservationResearchRequest) {
-        log.debug("Fetching reservation with criterias from : {}", reservationResearchRequest);
+        log.info("Fetching reservation with criterias from : {}", reservationResearchRequest);
         return reservationService.findwithCriteria(reservationResearchRequest);
     }
 
     @GetMapping("/sendInfoTravelEmail/{reservationId}")
     public Long sendInfoTravelEmail(@PathVariable Long reservationId) {
-        log.debug("Sending info travel email with reservationId : {}", reservationId);
+        log.info("Sending info travel email with reservationId : {}", reservationId);
         return reservationService.sendInfoTravelEmail(reservationId);
     }
 

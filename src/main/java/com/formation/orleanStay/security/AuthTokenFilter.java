@@ -63,12 +63,10 @@ protected void doFilterInternal(HttpServletRequest request, HttpServletResponse 
 
     try {
         String accessJWT = parseJwt(request);
-
-
-
+        log.info("Access JWT control");
 
         if (accessJWT != null && jwtUtils.validateJwtToken(accessJWT) && compareCookieWithAccessJwt(request, accessJWT)) {
-
+            log.info("Access JWT OK");
             String login = jwtUtils.getLoginFromJwtToken(accessJWT);
 
             UserDetails userDetails = customUserDetailsService.loadUserByUsername(login);

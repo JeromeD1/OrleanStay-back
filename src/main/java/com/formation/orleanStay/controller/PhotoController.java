@@ -26,35 +26,35 @@ public class PhotoController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<PhotoDTO> findAll(){
-        log.debug("Fetching all photo of all appartments");
+        log.info("Fetching all photo of all appartments");
         return photoService.findAll();
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public PhotoDTO findById(@PathVariable Long id){
-        log.debug("Fetching photo with id = {}", id);
+        log.info("Fetching photo with id = {}", id);
         return photoService.findDTOById(id);
     }
 
 //    @PostMapping
 //    @ResponseStatus(HttpStatus.CREATED)
 //    public PhotoDTO create(@RequestBody PhotoSaveRequest photoSaveRequest) {
-//        log.debug("Add new photo with value : {}", photoSaveRequest);
+//        log.info("Add new photo with value : {}", photoSaveRequest);
 //        return photoService.create(photoSaveRequest);
 //    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public List<PhotoDTO> create(@RequestBody PhotoSaveRequest photoSaveRequest) {
-        log.debug("Add new photo with value : {}", photoSaveRequest);
+        log.info("Add new photo with value : {}", photoSaveRequest);
         return photoService.create(photoSaveRequest);
     }
 
     @PutMapping("/{id}/oldImgId/{oldImgId}")
     @ResponseStatus(HttpStatus.OK)
     public PhotoDTO update(@PathVariable Long id, @PathVariable String oldImgId, @RequestBody PhotoSaveRequest photoSaveRequest) throws IOException {
-        log.debug("Updating photo of id {} with value {}", id, photoSaveRequest);
+        log.info("Updating photo of id {} with value {}", id, photoSaveRequest);
         return photoService.update(id, oldImgId, photoSaveRequest);
     }
 
@@ -63,13 +63,13 @@ public class PhotoController {
     public List<PhotoDTO> udpateOrder(@PathVariable Long appartmentId, @RequestBody PhotoListSaveRequest photosToReorder){
         System.out.println(photosToReorder);
         System.out.println("appartmentId : " + appartmentId);
-        log.debug("Updating order of photos with appartementId {} and values {}", appartmentId, photosToReorder);
+        log.info("Updating order of photos with appartementId {} and values {}", appartmentId, photosToReorder);
         return photoService.updateOrder(appartmentId, photosToReorder);
     }
 
     @DeleteMapping("/{id}/imgId/{imgId}")
     public ResponseEntity<List<PhotoDTO>> delete(@PathVariable Long id, @PathVariable String imgId) throws IOException {
-        log.debug("Deleting photo with id {}", id);
+        log.info("Deleting photo with id {}", id);
         List<PhotoDTO> photos = photoService.delete(id, imgId);
         return ResponseEntity.ok(photos);
     }

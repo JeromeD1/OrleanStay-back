@@ -2,7 +2,6 @@ package com.formation.orleanStay.security;
 
 import com.formation.orleanStay.utils.JwtProperties;
 import com.formation.orleanStay.utils.JwtUtils;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -19,15 +18,11 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
-import java.util.List;
-
 
 @Configuration
 @EnableWebSecurity
@@ -50,29 +45,27 @@ public class SpringSecurityConfig {
     public SecurityFilterChain securityFilterChain(
             HttpSecurity httpSecurity,
             JwtUtils jwtUtils,
-            Customizer<AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry> authorizeHttpRequestsCustomizer
-    ) throws Exception{
+            Customizer<AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry> authorizeHttpRequestsCustomizer,
+            RequestLoggingFilter requestLoggingFilter) throws Exception{
 
         httpSecurity
-//                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
 //                .cors(cors -> cors.disable())
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorizeHttpRequestsCustomizer);
-//                .logout(logout -> logout.logoutUrl("/logMeOut"));
-//                .logout(logout -> logout
-//                        .logoutUrl("/logout")
-//                        .logoutSuccessHandler((request, response, authentication) -> {
-//                            response.setStatus(HttpServletResponse.SC_OK);
-//                        })
-//                        .permitAll()
-//                );
 
+        httpSecurity.addFilterBefore(requestLoggingFilter(), UsernamePasswordAuthenticationFilter.class);
         httpSecurity.addFilterBefore(authenticationJwtTokenFilter(jwtUtils), UsernamePasswordAuthenticationFilter.class);
 
         return httpSecurity.build();
     }
 
+
+    @Bean
+    public RequestLoggingFilter requestLoggingFilter() {
+        return new RequestLoggingFilter();
+    }
 
     //Gestion de l'encription du mot de passe
     @Bean
@@ -112,27 +105,14 @@ public class SpringSecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList(corsProperties.getAllowedOrigins().split(",")));
-//        configuration.addAllowedOrigin("*");
         configuration.setAllowedMethods(Arrays.asList(corsProperties.getAllowedMethods().split(",")));
-
 //        configuration.addAllowedHeader("*");
-//        configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE","OPTIONS"));
-//        configuration.addAllowedMethod("*");
         configuration.setAllowCredentials(corsProperties.getAllowCredentials());
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
-//        configuration.setAllowedHeaders(List.of(CorsConfiguration.ALL));
-
-
-//        System.out.println("CORS Configuration:");
-//        System.out.println("Allowed Origins: " + configuration.getAllowedOrigins());
-//        System.out.println("Allowed Methods: " + configuration.getAllowedMethods());
-//        System.out.println("Allow Credentials: " + configuration.getAllowCredentials());
-
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-
 
 }

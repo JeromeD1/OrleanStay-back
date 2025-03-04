@@ -23,49 +23,49 @@ public class FeedbackController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<FeedbackDTO> findAll(){
-        log.debug("Fetching all feedbacks");
+        log.info("Fetching all feedbacks");
         return feedbackService.findAll();
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public FeedbackDTO findById(@PathVariable Long id) {
-        log.debug("Fetching feedback with id = {}", id);
+        log.info("Fetching feedback with id = {}", id);
         return feedbackService.findDTOById(id);
     }
 
     @GetMapping("/utilisateur/{userId}/appartment/{appartmentId}")
     @ResponseStatus(HttpStatus.OK)
     public List<FeedbackDTO> getByUserIdAndAppartmentId(@PathVariable Long userId, @PathVariable Long appartmentId) {
-        log.debug("Fetching feedback with utilisateurId = {} and appartmentId = {}", userId, appartmentId);
+        log.info("Fetching feedback with utilisateurId = {} and appartmentId = {}", userId, appartmentId);
         return feedbackService.getByUserIdAndAppartmentId(userId, appartmentId);
     }
 
     @GetMapping("/reservation/{reservationId}")
     @ResponseStatus(HttpStatus.OK)
     public List<FeedbackDTO> getByReservationId(@PathVariable Long reservationId) {
-        log.debug("Fetching feedback with reservationId = {}", reservationId);
+        log.info("Fetching feedback with reservationId = {}", reservationId);
         return feedbackService.findFeedbackByReservationId(reservationId);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public FeedbackDTO create(@RequestBody FeedbackSaveRequest feedbackSaveRequest) {
-        log.debug("Creating new feedback from feedbackSaveRequest :  {}", feedbackSaveRequest);
+        log.info("Creating new feedback from feedbackSaveRequest :  {}", feedbackSaveRequest);
         return feedbackService.create(feedbackSaveRequest);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public FeedbackDTO update(@PathVariable Long id, @RequestBody FeedbackSaveRequest feedbackSaveRequest) {
-        log.debug("Updating feedback of id {} with value {}", id, feedbackSaveRequest);
+        log.info("Updating feedback of id {} with value {}", id, feedbackSaveRequest);
         return feedbackService.update(id, feedbackSaveRequest);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
-        log.debug("Deleting feedback of id = {}", id);
+        log.info("Deleting feedback of id = {}", id);
         feedbackService.delete(id);
     }
 }

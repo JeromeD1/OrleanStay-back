@@ -30,7 +30,7 @@ public class AuthController {
 
     @PostMapping("/signup")
     public JwtResponse signup(@RequestBody SignupSaveRequest signupSaveRequest, HttpServletResponse response) {
-        log.debug("Signup and add new user from signupSaveRequest {}", signupSaveRequest);
+        log.info("Signup and add new user from signupSaveRequest {}", signupSaveRequest);
         final ResponseCookie cookie = jwtUtils.setRefreshTokenCookie(signupSaveRequest.getLogin());
         response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
         return authService.signup(signupSaveRequest);
@@ -39,7 +39,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public JwtResponse login(@RequestBody LoginRequest loginRequest, HttpServletResponse response) {
-        log.debug("Login de l'utilisateur suivant loginRequest = {}", loginRequest);
+        log.info("Login de l'utilisateur suivant loginRequest = {}", loginRequest);
         final ResponseCookie cookie = jwtUtils.setRefreshTokenCookie(loginRequest.getLogin());
         response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
         return authService.login(loginRequest);
@@ -50,7 +50,7 @@ public class AuthController {
     public ResponseEntity<Map<String, String>> logout(HttpServletResponse response) {
 
         try {
-            log.debug("Logout de l'utilisateur");
+            log.info("Logout de l'utilisateur");
             authService.logout();
             final ResponseCookie cookie = authService.deleteCookie(response);
             response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());

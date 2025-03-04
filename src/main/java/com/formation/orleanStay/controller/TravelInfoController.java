@@ -25,14 +25,14 @@ public class TravelInfoController {
     @GetMapping("/appartment/{appartmentId}")
     @ResponseStatus(HttpStatus.OK)
     public List<TravelInfoDTO> findByAppartmentId(@PathVariable Long appartmentId){
-        log.debug("Fetching all travelInfos from appartment of id {}", appartmentId);
+        log.info("Fetching all travelInfos from appartment of id {}", appartmentId);
         return travelInfoService.findByAppartmentId(appartmentId);
     }
 
     @GetMapping("/reservation/{reservationId}/traveller/{travellerId}")
     @ResponseStatus(HttpStatus.OK)
     public List<TravelInfoDTO> findByReservationAndTravellerIds(@PathVariable Long reservationId, @PathVariable Long travellerId) {
-        log.debug("Fetching all travelInfos from appartment of reservation of id {}", reservationId);
+        log.info("Fetching all travelInfos from appartment of reservation of id {}", reservationId);
         System.out.println("Dans controleur 1111111111111");
         return travelInfoService.findByReservationAndTravellerIds(reservationId, travellerId);
     }
@@ -40,28 +40,28 @@ public class TravelInfoController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public TravelInfoDTO create(@RequestBody TravelInfoSaveRequest saveRequest){
-        log.debug("Creating new travelInfo {}", saveRequest);
+        log.info("Creating new travelInfo {}", saveRequest);
         return travelInfoService.create(saveRequest);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public TravelInfoDTO update(@PathVariable Long id, @RequestBody TravelInfoSaveRequest saveRequest, @RequestParam(required = false) String oldImgId) throws IOException {
-        log.debug("Updating travelInfo {}", saveRequest);
+        log.info("Updating travelInfo {}", saveRequest);
         return travelInfoService.update(id, saveRequest, oldImgId);
     }
 
     @PutMapping("/appartment/{appartmentId}")
     @ResponseStatus(HttpStatus.OK)
     public List<TravelInfoDTO> updateOrder(@PathVariable Long appartmentId ,@RequestBody TravelInfoListSaveRequest travelInfoDTOList){
-        log.debug("Updating travelInfo position orders from {}", travelInfoDTOList);
+        log.info("Updating travelInfo position orders from {}", travelInfoDTOList);
         return travelInfoService.updateOrder(appartmentId, travelInfoDTOList);
     }
 
 
     @DeleteMapping("/{id}")
     public ResponseEntity<List<TravelInfoDTO>> delete(@PathVariable Long id, @RequestParam(required = false) String oldImgId) throws IOException {
-        log.debug("Deleting travelInfo with id {}", id);
+        log.info("Deleting travelInfo with id {}", id);
         List<TravelInfoDTO> travelInfos = travelInfoService.delete(id, oldImgId);
         return ResponseEntity.ok(travelInfos);
     }

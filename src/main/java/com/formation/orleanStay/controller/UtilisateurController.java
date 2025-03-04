@@ -26,35 +26,35 @@ public class UtilisateurController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<UtilisateurDTO> findAll(){
-        log.debug("Envoi de tous les utilisateurs");
+        log.info("Envoi de tous les utilisateurs");
         return utilisateurService.findAll();
     }
 
     @GetMapping("/owner")
     @ResponseStatus(HttpStatus.OK)
     public List<UtilisateurDTO> findOwners(){
-        log.debug("Envoi de tous les propriétaires");
+        log.info("Envoi de tous les propriétaires");
         return utilisateurService.findByRoleOwner();
     }
 
     @GetMapping("/user")
     @ResponseStatus(HttpStatus.OK)
     public List<UtilisateurDTO> findUsers(){
-        log.debug("Envoi de tous les utilisateurs de type USER");
+        log.info("Envoi de tous les utilisateurs de type USER");
         return utilisateurService.findByRoleUser();
     }
 
     @GetMapping("/admin")
     @ResponseStatus(HttpStatus.OK)
     public List<UtilisateurDTO> findAdmin(){
-        log.debug("Envoi de tous les admin");
+        log.info("Envoi de tous les admin");
         return utilisateurService.findByRoleAdmin();
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public UtilisateurDTO findById(@PathVariable Long id) {
-        log.debug("Envoi de l'utilisateur avec l'id : {}", id);
+        log.info("Envoi de l'utilisateur avec l'id : {}", id);
         return utilisateurService.findDTOById(id);
     }
 
@@ -63,14 +63,14 @@ public class UtilisateurController {
     public UtilisateurDTO updateRole(@PathVariable Long id, @RequestBody Map<String, String> roleMap) {
         String newRoleStr = roleMap.get("newRole");
         ERole newRole = ERole.valueOf(newRoleStr);
-        log.debug("Modification du role de l'utilisateur avec l'id {} et le role {}", id, newRole);
+        log.info("Modification du role de l'utilisateur avec l'id {} et le role {}", id, newRole);
         return utilisateurService.updateRole(id, newRole);
     }
 
     @PutMapping("/{id}/password")
     @ResponseStatus(HttpStatus.OK)
     public Long updatePassword(@PathVariable Long id, @RequestBody @Valid ChangePasswordSaveRequest changePasswordSaveRequest) {
-        log.debug("Modification du mot de passe de l'utilisateur avec l'id {}", id);
+        log.info("Modification du mot de passe de l'utilisateur avec l'id {}", id);
         return utilisateurService.updatePassword(id, changePasswordSaveRequest);
     }
 
