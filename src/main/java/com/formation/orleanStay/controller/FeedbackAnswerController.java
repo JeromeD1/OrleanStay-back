@@ -21,21 +21,21 @@ public class FeedbackAnswerController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public FeedbackDTO create(@RequestBody FeedbackAnswerSaveRequest feedbackAnswerSaveRequest) {
-        log.debug("Creating new feedbackAnswer from feedbackAnswerSaveRequest :  {}", feedbackAnswerSaveRequest);
+        log.info("Creating new feedbackAnswer from feedbackAnswerSaveRequest :  {}", feedbackAnswerSaveRequest);
         return feedbackAnswerService.create(feedbackAnswerSaveRequest);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public FeedbackDTO update(@PathVariable Long id, @RequestBody FeedbackAnswerSaveRequest feedbackAnswerSaveRequest) {
-        log.debug("Updating feedbackAnswer of id {} with value {}", id, feedbackAnswerSaveRequest);
+        log.info("Updating feedbackAnswer of id {} with value {}", id, feedbackAnswerSaveRequest);
         return feedbackAnswerService.update(id, feedbackAnswerSaveRequest);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
-        log.debug("Deleting feedbackAnswer of id = {}", id);
+        log.info("Deleting feedbackAnswer of id = {}", id);
         feedbackAnswerService.delete(id);
     }
 }

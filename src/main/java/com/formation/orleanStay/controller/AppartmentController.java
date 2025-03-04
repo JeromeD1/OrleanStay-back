@@ -28,21 +28,21 @@ public class AppartmentController {
     @GetMapping("/all")
     @ResponseStatus(HttpStatus.OK)
     public List<AppartmentDTO> findAll() {
-        log.debug("Fetching all appartments");
+        log.info("Fetching all appartments");
         return appartmentService.findAll();
     }
 
     @GetMapping("/names")
     @ResponseStatus(HttpStatus.OK)
     public List<AppartmentNameAndOwnerDTO> findAllNamesAndOwners() {
-        log.debug("Fetching all appartment names and owners");
+        log.info("Fetching all appartment names and owners");
         return appartmentService.findAllNamesAndOwners();
     }
 
     @GetMapping("/active")
     @ResponseStatus(HttpStatus.OK)
     public List<AppartmentDTO> findAllActive() {
-        log.debug("Fetching all active appartments");
+        log.info("Fetching all active appartments");
         printUserRole();
         return appartmentService.findAllActive();
     }
@@ -50,35 +50,35 @@ public class AppartmentController {
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public AppartmentDTO findById(@PathVariable Long id) {
-        log.debug("Fetching appartment of id {}", id);
+        log.info("Fetching appartment of id {}", id);
         return appartmentService.findDTOById(id);
     }
 
     @GetMapping("/owner/{id}")
     @ResponseStatus(HttpStatus.OK)
     public List<AppartmentDTO> findByOwnerId(@PathVariable Long id) {
-        log.debug("Fetching all appartments from ownerId = {}", id);
+        log.info("Fetching all appartments from ownerId = {}", id);
         return appartmentService.findByOwnerId(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public AppartmentDTO create(@Valid @RequestBody AppartmentSaveRequest appartmentSaveRequest) {
-        log.debug("Creating a new appartment : {}", appartmentSaveRequest);
+        log.info("Creating a new appartment : {}", appartmentSaveRequest);
         return appartmentService.create(appartmentSaveRequest);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public AppartmentDTO update(@PathVariable Long id, @Valid @RequestBody AppartmentSaveRequest appartmentSaveRequest) {
-        log.debug("Updating appartment with id {} and values : {}", id, appartmentSaveRequest);
+        log.info("Updating appartment with id {} and values : {}", id, appartmentSaveRequest);
         return appartmentService.update(id, appartmentSaveRequest);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
-        log.debug("Deleting appartment with id {}", id);
+        log.info("Deleting appartment with id {}", id);
         appartmentService.delete(id);
     }
 

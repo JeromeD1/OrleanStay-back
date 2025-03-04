@@ -22,35 +22,35 @@ public class DiscountController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<DiscountDTO> findAll(){
-        log.debug("Fetching all discounts");
+        log.info("Fetching all discounts");
         return discountService.findAll();
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public DiscountDTO findById(@PathVariable Long id) {
-        log.debug("Fetching discount with id = {}", id);
+        log.info("Fetching discount with id = {}", id);
         return discountService.findDTOById(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public DiscountDTO create(@RequestBody DiscountSaveRequest discountSaveRequest) {
-        log.debug("Creating new discount from discountSaveRequest :  {}", discountSaveRequest);
+        log.info("Creating new discount from discountSaveRequest :  {}", discountSaveRequest);
         return discountService.create(discountSaveRequest);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public DiscountDTO update(@PathVariable Long id, @RequestBody DiscountSaveRequest discountSaveRequest) {
-        log.debug("Updating discount of id {} with value {}", id, discountSaveRequest);
+        log.info("Updating discount of id {} with value {}", id, discountSaveRequest);
         return discountService.update(id, discountSaveRequest);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
-        log.debug("Deleting discount of id = {}", id);
+        log.info("Deleting discount of id = {}", id);
         discountService.delete(id);
     }
 }

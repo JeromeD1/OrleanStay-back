@@ -22,35 +22,35 @@ public class PersonalInformationController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<PersonalInformationDTO> findAll(){
-        log.debug("Fetching all personalInformation");
+        log.info("Fetching all personalInformation");
         return personalInformationService.findAll();
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public PersonalInformationDTO findById(@PathVariable Long id){
-        log.debug("Fetching personalInformation with id = {}", id);
+        log.info("Fetching personalInformation with id = {}", id);
         return personalInformationService.findDTOById(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public PersonalInformationDTO create(@RequestBody PersonalInformationSaveRequest personalInformationSaveRequest) {
-        log.debug("Add new personalInformation with value : {}", personalInformationSaveRequest);
+        log.info("Add new personalInformation with value : {}", personalInformationSaveRequest);
         return personalInformationService.create(personalInformationSaveRequest);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public PersonalInformationDTO update(@PathVariable Long id, @RequestBody PersonalInformationSaveRequest personalInformationSaveRequest) {
-        log.debug("Updating personalInformation of if {} with value {}", id, personalInformationSaveRequest);
+        log.info("Updating personalInformation of if {} with value {}", id, personalInformationSaveRequest);
         return personalInformationService.update(id, personalInformationSaveRequest);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id){
-        log.debug("Deleting personalInformation with id {}", id);
+        log.info("Deleting personalInformation with id {}", id);
         personalInformationService.delete(id);
     }
 }
