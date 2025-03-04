@@ -73,9 +73,11 @@ public class JwtUtils {
     }
 
     public ResponseCookie getRefreshTokenCookie(RefreshToken refreshToken) {
+        //TODO : passer secure à true
         return ResponseCookie.from("refreshToken", refreshToken.getToken())
                 .httpOnly(true)
-                .secure(true)
+                .secure(false)
+                .sameSite("none")
                 .path("/")
                 .maxAge(refreshToken.getExpiryDate())
                 .build();
